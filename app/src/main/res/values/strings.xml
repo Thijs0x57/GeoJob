@@ -11,4 +11,7 @@
     <string name="Breda2017">Breda 2017</string>
     <string name="CityGuide">City Guide</string>
     <string name="title_activity_navigate">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
