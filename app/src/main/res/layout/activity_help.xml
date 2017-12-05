@@ -19,13 +19,6 @@
         app:layout_constraintVertical_bias="1.0">
 
         <android.support.constraint.Guideline
-            android:id="@+id/standard_gdln_agsLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.9"/>
-
-        <android.support.constraint.Guideline
             android:id="@+id/standard_gdlnVVVLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,19 +66,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/vvvlogo"/>
-
-        <ImageView
-            android:id="@+id/standard_AGSLogo_imgvw"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/standard_gdlnLeftbar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/standard_gdln_agsLogo"
-            app:srcCompat="@drawable/agslogo"/>
 
         <ImageView
             android:id="@+id/standard_dutchFlag_imgvw"
