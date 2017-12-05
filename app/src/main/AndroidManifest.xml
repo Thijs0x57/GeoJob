@@ -22,6 +22,14 @@
         </activity>
         <activity android:name=".HelpActivity">
         </activity>
+        <activity android:name=".ChooseRouteActivity">
+        </activity>
+        <activity android:name=".LanguageActivity">
+        </activity>
+        <activity android:name=".DetailRouteActivity">
+        </activity>
+        <activity android:name=".NavigateActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@
     tools:context="nl.thijswijnen.geojob.WelcomeActivity">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/welcome_standard_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,21 +19,21 @@
         app:layout_constraintVertical_bias="1.0">
 
         <android.support.constraint.Guideline
-            android:id="@+id/welcome_gdln_agsLogo"
+            android:id="@+id/settings_gdln_agsLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.9"/>
 
         <android.support.constraint.Guideline
-            android:id="@+id/welcome_gdlnVVVLogo"
+            android:id="@+id/settings_gdlnVVVLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.17"/>
 
         <android.support.constraint.Guideline
-            android:id="@+id/welcome_gdlnLeftbar"
+            android:id="@+id/settings_gdlnLeftbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -44,7 +45,7 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/welcome_gdlnLeftbar"
+            app:layout_constraintStart_toStartOf="@+id/settings_gdlnLeftbar"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@color/colorBackground"/>
 
@@ -53,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/welcome_gdlnLeftbar"
+            app:layout_constraintEnd_toStartOf="@+id/settings_gdlnLeftbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@color/colorLeftRed"/>
@@ -67,8 +68,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toTopOf="@+id/welcome_gdlnVVVLogo"
-            app:layout_constraintEnd_toStartOf="@+id/welcome_gdlnLeftbar"
+            app:layout_constraintBottom_toTopOf="@+id/settings_gdlnVVVLogo"
+            app:layout_constraintEnd_toStartOf="@+id/settings_gdlnLeftbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/vvvlogo"/>
@@ -81,25 +82,25 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/welcome_gdlnLeftbar"
+            app:layout_constraintEnd_toStartOf="@+id/settings_gdlnLeftbar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/welcome_gdln_agsLogo"
+            app:layout_constraintTop_toTopOf="@+id/settings_gdln_agsLogo"
             app:srcCompat="@drawable/agslogo"/>
 
         <ImageView
             android:id="@+id/welcome_dutchFlag_imgvw"
-            android:layout_width="20"
+            android:layout_width="20dp"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="@+id/welcome_BritishFlag_imgvw"
-            app:layout_constraintEnd_toStartOf="@+id/welcome_BritishFlag_imgvw"
+            app:layout_constraintBottom_toBottomOf="@+id/settings_BritishFlag_imgvw"
+            app:layout_constraintEnd_toStartOf="@+id/settings_BritishFlag_imgvw"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/dutchflagicon"/>
 
         <ImageView
-            android:id="@+id/welcome_BritishFlag_imgvw"
+            android:id="@+id/settings_BritishFlag_imgvw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -109,7 +110,7 @@
             app:srcCompat="@drawable/ukflagicon"/>
 
         <TextView
-            android:id="@+id/welcome_Breda2017_txtvw"
+            android:id="@+id/settings_Breda2017_txtvw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -121,7 +122,7 @@
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/welcome_gdlnLeftbar"
+            app:layout_constraintStart_toStartOf="@+id/settings_gdlnLeftbar"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
@@ -136,11 +137,12 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/welcome_gdlnLeftbar"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_Breda2017_txtvw"/>
+            app:layout_constraintStart_toStartOf="@+id/settings_gdlnLeftbar"
+            app:layout_constraintTop_toBottomOf="@+id/settings_Breda2017_txtvw"/>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/welcome_welcome_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -176,7 +178,7 @@
         <Button
             android:id="@+id/welcome_RouteKiezen_btn"
             android:layout_width="0dp"
-            android:layout_height="55"
+            android:layout_height="55dp"
             android:backgroundTint="@color/colorButtons"
             android:text="@string/routeKiezen"
             android:textAllCaps="false"
@@ -188,7 +190,7 @@
         <Button
             android:id="@+id/welcome_TaalKiezen_btn"
             android:layout_width="0dp"
-            android:layout_height="55"
+            android:layout_height="55dp"
             android:backgroundTint="@color/colorButtons"
             android:text="@string/taalKiezen"
             android:textAllCaps="false"
