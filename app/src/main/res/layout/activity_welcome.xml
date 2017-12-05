@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nl.thijswijnen.geojob.WelcomeActivity">
+    tools:context="nl.thijswijnen.geojob.UI.WelcomeActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/standard_standard_layout"

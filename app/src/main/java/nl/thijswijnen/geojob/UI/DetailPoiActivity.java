@@ -1,7 +1,9 @@
-package nl.thijswijnen.geojob;
+package nl.thijswijnen.geojob.UI;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import nl.thijswijnen.geojob.R;
 
 public class DetailPoiActivity extends AppCompatActivity
 {

@@ -5,6 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nl.thijswijnen.geojob.NavigateActivity">
+    tools:context="nl.thijswijnen.geojob.UI.NavigateActivity">
 
 </android.support.constraint.ConstraintLayout>
