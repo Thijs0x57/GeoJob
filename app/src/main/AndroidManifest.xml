@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".NavigateActivity">
         </activity>
+        <activity android:name=".DetailPoiActivity">
+        </activity>
     </application>
 
 </manifest>
