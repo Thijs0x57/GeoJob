@@ -118,7 +118,7 @@
             android:fontFamily="sans-serif"
             android:text="@string/Breda2017"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/welcome_gdlnLeftbar"
@@ -130,11 +130,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:fontFamily="sans-serif"
             android:text="@string/CityGuide"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/welcome_gdlnLeftbar"
             app:layout_constraintTop_toBottomOf="@+id/welcome_Breda2017_txtvw"/>
@@ -148,6 +148,75 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/welcome_gdlnLeftbar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/welcome_gdlnVVVLogo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.17"/>
+
+        <ImageView
+            android:id="@+id/welcome_BredaKerk_imgvw"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/welcome_gdlnLeftbar2"
+            app:layout_constraintTop_toTopOf="@+id/welcome_gdlnVVVLogo2"
+            app:srcCompat="@drawable/grote_kerk"/>
+
+        <Button
+            android:id="@+id/welcome_RouteKiezen_btn"
+            android:layout_width="0dp"
+            android:layout_height="55"
+            android:backgroundTint="@color/colorButtons"
+            android:text="@string/routeKiezen"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/welcome_gdlnButtonsVertical2"
+            app:layout_constraintStart_toStartOf="@+id/welcome_gdlnButtonsVertical"
+            app:layout_constraintTop_toTopOf="@+id/welcome_gdlnButtonsHorizontal"/>
+
+        <Button
+            android:id="@+id/welcome_TaalKiezen_btn"
+            android:layout_width="0dp"
+            android:layout_height="55"
+            android:backgroundTint="@color/colorButtons"
+            android:text="@string/taalKiezen"
+            android:textAllCaps="false"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/welcome_gdlnButtonsVertical2"
+            app:layout_constraintStart_toStartOf="@+id/welcome_gdlnButtonsVertical"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_RouteKiezen_btn"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/welcome_gdlnButtonsVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.14"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/welcome_gdlnButtonsVertical2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.47"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/welcome_gdlnButtonsHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.61"/>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
