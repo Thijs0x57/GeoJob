@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoJob</string>
+    <string name="terugKnop">Terug</string>
+    <string name="BlindWalls">Blind Walls</string>
+    <string name="historischeKilometer">Historische Kilometer</string>
+    <string name="zoek">Zoek</string>
+    <string name="routeKiezen">Route Kiezen</string>
+    <string name="taalKiezen">Taal Kiezen</string>
+    <string name="kiesTaalKnop">Taal Kiezen</string>
+    <string name="toonNotificaties">Noficaties weergeven</string>
+    <string name="Breda2017">Breda 2017</string>
+    <string name="CityGuide">City Guide</string>
+</resources>
