@@ -31,7 +31,9 @@ public class WelcomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_settings);
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
 
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
         Map<String, ?> keyValues = preferences.getAll();
@@ -45,26 +47,26 @@ public class WelcomeActivity extends AppCompatActivity
         }
 
         //button navigation
-        routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
-        routeKiezenBtn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent routeKiezenIntent = new Intent(getApplicationContext(), ChooseRouteActivity.class);
-                startActivity(routeKiezenIntent);
-            }
-        });
-
-        taalKeuzeBtn = findViewById(R.id.welcome_TaalKiezen_btn);
-        taalKeuzeBtn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
-                startActivity(taalKeuzeIntent);
-            }
-        });
+//        routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
+//        routeKiezenBtn.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                Intent routeKiezenIntent = new Intent(getApplicationContext(), ChooseRouteActivity.class);
+//                startActivity(routeKiezenIntent);
+//            }
+//        });
+//
+//        taalKeuzeBtn = findViewById(R.id.welcome_TaalKiezen_btn);
+//        taalKeuzeBtn.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
+//                startActivity(taalKeuzeIntent);
+//            }
+//        });
     }
 }

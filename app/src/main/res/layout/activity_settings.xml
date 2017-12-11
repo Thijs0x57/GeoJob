@@ -23,14 +23,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.17"/>
+            app:layout_constraintGuide_percent="0.17" />
 
         <android.support.constraint.Guideline
             android:id="@+id/standard_gdlnLeftbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.2"/>
+            app:layout_constraintGuide_percent="0.2" />
 
         <ImageView
             android:id="@+id/standard_background_imgvw"
@@ -40,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/standard_gdlnLeftbar"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/colorBackground"/>
+            app:srcCompat="@color/colorBackground" />
 
         <ImageView
             android:id="@+id/standard_leftBar_imgvw"
@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toStartOf="@+id/standard_gdlnLeftbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/colorLeftRed"/>
+            app:srcCompat="@color/colorLeftRed" />
 
         <ImageView
             android:id="@+id/standard_VVVLogo_imgvw"
@@ -65,7 +65,7 @@
             app:layout_constraintEnd_toStartOf="@+id/standard_gdlnLeftbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/vvvlogo"/>
+            app:srcCompat="@drawable/vvvlogo" />
 
         <ImageView
             android:id="@+id/standard_dutchFlag_imgvw"
@@ -77,7 +77,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/standard_BritishFlag_imgvw"
             app:layout_constraintEnd_toStartOf="@+id/standard_BritishFlag_imgvw"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/dutchflagicon"/>
+            app:srcCompat="@drawable/dutchflagicon" />
 
         <ImageView
             android:id="@+id/standard_BritishFlag_imgvw"
@@ -87,7 +87,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ukflagicon"/>
+            app:srcCompat="@drawable/ukflagicon" />
 
         <TextView
             android:id="@+id/standard_Breda2017_txtvw"
@@ -103,7 +103,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/standard_gdlnLeftbar"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/standard_cityguide_txtvw"
@@ -118,55 +118,59 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/standard_gdlnLeftbar"
-            app:layout_constraintTop_toBottomOf="@+id/standard_Breda2017_txtvw"/>
+            app:layout_constraintTop_toBottomOf="@+id/standard_Breda2017_txtvw" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/settings_settings_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Switch
-            android:id="@+id/settings_showNotifications_swtch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:switchPadding="50dp"
-            android:text="@string/toonNotificaties"
-            android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/guideline"/>
+        android:layout_width="309dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/standard_standard_layout"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.Guideline
-            android:id="@+id/guideline"
+            android:id="@+id/standard_gdlnVVVLogo2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.2"/>
+            app:layout_constraintGuide_percent="0.17" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
+        <Switch
+            android:id="@+id/settings_notifications_swtch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.2"/>
+            android:layout_height="27dp"
+            android:layout_marginEnd="52dp"
+            android:layout_marginTop="44dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/standard_gdlnVVVLogo2" />
+
+        <TextView
+            android:id="@+id/settings_notifications_txtvw"
+            android:layout_width="170dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="@string/toonNotificaties"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toStartOf="@+id/settings_notifications_swtch"
+            app:layout_constraintHorizontal_bias="0.313"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/settings_notifications_swtch"
+            tools:text="@string/toonNotificaties" />
 
         <Button
-            android:id="@+id/settings_chooseLanguage_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/colorButtons"
-            android:text="@string/chooseLanguage"
+            android:id="@+id/settings_chooselanguage_btn"
+            android:layout_width="161dp"
+            android:layout_height="61dp"
+            android:layout_marginTop="72dp"
+            android:background="@color/colorButtons"
+            android:text="@string/kiesTaalKnop"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/settings_showNotifications_swtch"/>
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_notifications_swtch" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

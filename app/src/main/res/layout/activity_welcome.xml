@@ -232,6 +232,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/welcome_gdlnVVVLogo2"
             app:srcCompat="@drawable/questionmark"/>
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
