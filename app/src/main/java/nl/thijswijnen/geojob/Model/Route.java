@@ -1,12 +1,15 @@
 package nl.thijswijnen.geojob.Model;
 
+import android.content.Context;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by thijs_000 on 05-Dec-17.
  */
 
-public class Route
+public class Route implements Serializable
 {
     private String routeTitle;
     private List<PointOfInterest> allPointOfInterests;
@@ -16,7 +19,7 @@ public class Route
         return allPointOfInterests;
     }
 
-    public void load()
+    public void load(Context context)
     {
         //fill method
     }

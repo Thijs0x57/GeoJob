@@ -16,6 +16,8 @@ import java.util.List;
 
 import nl.thijswijnen.geojob.Controller.Adapters.ChooseRouteActivityItemDecorator;
 import nl.thijswijnen.geojob.Controller.Adapters.RouteListViewAdapter;
+import nl.thijswijnen.geojob.Model.BlindWall;
+import nl.thijswijnen.geojob.Model.BlindWalls;
 import nl.thijswijnen.geojob.Model.Route;
 import nl.thijswijnen.geojob.R;
 
@@ -39,11 +41,17 @@ public class ChooseRouteActivity extends AppCompatActivity
             }
         });
 
+
         routes = new ArrayList<>();
-        //dummy route
-        Route r = new Route();
-        r.setRouteTitle("test");
+
+        Route r = new BlindWalls();
+        r.load(this);
         routes.add(r);
+
+        //dummy route
+        Route route = new Route();
+        route.setRouteTitle("test");
+        routes.add(route);
 
         Route p = new Route();
         p.setRouteTitle("test2");

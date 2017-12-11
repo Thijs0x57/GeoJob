@@ -22,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity
     protected static SharedPreferences preferences;
     protected static SharedPreferences.Editor editor;
     private final String SHOW_NOTIFICATIONS = "showNotifications";
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

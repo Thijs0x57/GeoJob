@@ -63,6 +63,7 @@ public class WelcomeActivity extends AppCompatActivity
         {
             Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
             startActivity(taalKeuzeIntent);
+            finish();
         }
 
         
@@ -86,6 +87,7 @@ public class WelcomeActivity extends AppCompatActivity
             {
                 Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
                 startActivity(taalKeuzeIntent);
+                finish();
             }
         });
     }
