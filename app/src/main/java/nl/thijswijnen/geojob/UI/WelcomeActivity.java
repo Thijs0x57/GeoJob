@@ -1,11 +1,15 @@
 package nl.thijswijnen.geojob.UI;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+
+import java.util.Locale;
+import java.util.Map;
 
 import nl.thijswijnen.geojob.R;
 
@@ -14,12 +18,25 @@ public class WelcomeActivity extends AppCompatActivity
 
     private Button routeKiezenBtn;
     private Button taalKeuzeBtn;
+    static Locale myLocale;
+    private static final String PREFS_NAME = "NamePrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+        Map<String, ?> keyValues = preferences.getAll();
+
+        if(!keyValues.isEmpty()){
+            String lang = (String)keyValues.get("language");
+            LanguageActivity.setLocale(getApplicationContext(),"en");
+        } else{
+            Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
+            startActivity(taalKeuzeIntent);
+        }
 
         //button navigation
         routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
@@ -40,7 +57,6 @@ public class WelcomeActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
-                taalKeuzeIntent.putExtra("NOT","IMPORTANT");
                 startActivity(taalKeuzeIntent);
             }
         });
