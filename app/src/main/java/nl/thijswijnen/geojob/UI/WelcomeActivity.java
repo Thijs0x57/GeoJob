@@ -54,9 +54,11 @@ public class WelcomeActivity extends AppCompatActivity
 
         if(!preferences.getAll().isEmpty())
         {
-            String lang = preferences.getString("language", null);
-            LanguageActivity.setLocale(getApplicationContext(),lang);
-            finish();
+            if(WelcomeActivity.myLocale == null){
+                String lang = preferences.getString("language", null);
+                LanguageActivity.setLocale(getApplicationContext(),lang);
+                finish();
+            }
         } else
         {
             Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
