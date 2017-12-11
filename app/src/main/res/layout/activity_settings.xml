@@ -97,7 +97,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif"
-            android:text="@string/Breda2017"
+            android:text="@string/Common_Breda2017"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="28sp"
             android:textStyle="bold"
@@ -113,7 +113,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
             android:fontFamily="sans-serif"
-            android:text="@string/CityGuide"
+            android:text="@string/Common_CityGuide"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -153,13 +153,13 @@
             android:layout_marginEnd="28dp"
             android:layout_marginStart="8dp"
             android:gravity="center"
-            android:text="@string/toonNotificaties"
+            android:text="@string/SettingsActivity_ShowNotifications"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toStartOf="@+id/settings_notifications_swtch"
             app:layout_constraintHorizontal_bias="0.313"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/settings_notifications_swtch"
-            tools:text="@string/toonNotificaties" />
+            tools:text="@string/SettingsActivity_ShowNotifications" />
 
         <Button
             android:id="@+id/settings_chooselanguage_btn"
@@ -167,7 +167,7 @@
             android:layout_height="61dp"
             android:layout_marginTop="72dp"
             android:background="@color/colorButtons"
-            android:text="@string/kiesTaalKnop"
+            android:text="@string/SettingsActivity_ChooseLanguage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settings_notifications_swtch" />
