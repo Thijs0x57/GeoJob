@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_detailed_viewpages_images_id"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/detailPoi_info_txtvw"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -61,6 +61,7 @@
         app:layout_constraintGuide_percent="0.60"/>
 
     <ScrollView
+        android:id="@+id/detailPoi_scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,7 +74,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/detailPoi_description_txtvw"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

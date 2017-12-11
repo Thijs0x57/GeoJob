@@ -37,7 +37,7 @@ public class WelcomeActivity extends AppCompatActivity
             Intent firstStartupIntent = new Intent(getApplicationContext(), LanguageActivity.class);
             startActivity(firstStartupIntent);
         }
-        
+
 
         //button navigation
         routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
