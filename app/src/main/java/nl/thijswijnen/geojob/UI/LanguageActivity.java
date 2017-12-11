@@ -48,7 +48,7 @@ public class LanguageActivity extends AppCompatActivity
         WelcomeActivity.editor.clear().apply();
         WelcomeActivity.editor.putString("language", lang).apply();
         setLocale(getApplicationContext(),lang);
-
+        finish();
         //TODO: check if this is OK
 
     }
