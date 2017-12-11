@@ -16,4 +16,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="chooseLanguage">Choose Language</string>
     <string name="routeHervatten">Resume Route</string>
+    <string name="DetailRoute_StartRouteButton">Route gaan lopen</string>
 </resources>

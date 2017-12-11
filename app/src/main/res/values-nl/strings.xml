@@ -13,4 +13,5 @@
     <string name="CityGuide">City Guide</string>
     <string name="chooseLanguage">Taal Kiezen</string>
     <string name="routeHervatten">Route Hervatten</string>
+    <string name="DetailRoute_StartRouteButton">Route gaan lopen</string>
 </resources>
