@@ -3,8 +3,199 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="nl.thijswijnen.geojob.UI.LanguageActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/standard_standard_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/standard_gdlnVVVLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.17" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/standard_gdlnLeftbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <ImageView
+            android:id="@+id/standard_background_imgvw"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/standard_gdlnLeftbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/colorBackground" />
+
+        <ImageView
+            android:id="@+id/standard_leftBar_imgvw"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/standard_gdlnLeftbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/colorLeftRed" />
+
+        <ImageView
+            android:id="@+id/standard_VVVLogo_imgvw"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/standard_gdlnVVVLogo"
+            app:layout_constraintEnd_toStartOf="@+id/standard_gdlnLeftbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/vvvlogo" />
+
+        <ImageView
+            android:id="@+id/standard_dutchFlag_imgvw"
+            android:layout_width="20dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/standard_BritishFlag_imgvw"
+            app:layout_constraintEnd_toStartOf="@+id/standard_BritishFlag_imgvw"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dutchflagicon" />
+
+        <ImageView
+            android:id="@+id/standard_BritishFlag_imgvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ukflagicon" />
+
+        <TextView
+            android:id="@+id/standard_Breda2017_txtvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/Common_Breda2017"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/standard_gdlnLeftbar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/standard_cityguide_txtvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/Common_CityGuide"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/standard_gdlnLeftbar"
+            app:layout_constraintTop_toBottomOf="@+id/standard_Breda2017_txtvw" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/language_language_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/language_gdlnLeftbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/language_gdlnVVVLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.17" />
+
+        <ImageView
+            android:id="@+id/language_BredaKerk_imgvw"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/language_gdlnLeftbar"
+            app:layout_constraintTop_toTopOf="@+id/language_gdlnVVVLogo"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/grote_kerk" />
+
+        <ImageButton
+            android:id="@+id/language_dutch_imgButt"
+            android:layout_width="187dp"
+            android:layout_height="141dp"
+            android:adjustViewBounds="true"
+            android:background="#80000000"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/language_gdlnMidImg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/language_gdlnLeftbar"
+            app:layout_constraintTop_toTopOf="@+id/language_gdlnVVVLogo"
+            app:srcCompat="@drawable/flag_nl" />
+
+        <ImageButton
+            android:id="@+id/language_english_imgButt"
+            android:layout_width="187dp"
+            android:layout_height="141dp"
+            android:adjustViewBounds="true"
+            android:background="#80000000"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/language_BredaKerk_imgvw"
+            app:layout_constraintStart_toStartOf="@+id/language_BredaKerk_imgvw"
+            app:layout_constraintTop_toTopOf="@+id/language_gdlnMidImg"
+            app:srcCompat="@drawable/flag_uk" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/language_gdlnMidImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_percent="0.585"
+            app:layout_constraintTop_toTopOf="@+id/language_gdlnVVVLogo" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

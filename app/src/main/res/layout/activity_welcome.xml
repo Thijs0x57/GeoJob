@@ -97,7 +97,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif"
-            android:text="@string/Breda2017"
+            android:text="@string/Common_Breda2017"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="28sp"
             android:textStyle="bold"
@@ -113,7 +113,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
             android:fontFamily="sans-serif"
-            android:text="@string/CityGuide"
+            android:text="@string/Common_CityGuide"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -181,7 +181,7 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:backgroundTint="@color/colorButtons"
-            android:text="@string/routeKiezen"
+            android:text="@string/WelcomeActivity_SelectRoute"
             android:textAllCaps="false"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/welcome_gdlnButtonsVertical2"
@@ -193,7 +193,7 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:backgroundTint="@color/colorButtons"
-            android:text="@string/taalKiezen"
+            android:text="@string/WelcomeActivity_SelectLanguage"
             android:textAllCaps="false"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/welcome_gdlnButtonsVertical2"
@@ -232,6 +232,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/welcome_gdlnVVVLogo2"
             app:srcCompat="@drawable/questionmark"/>
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
