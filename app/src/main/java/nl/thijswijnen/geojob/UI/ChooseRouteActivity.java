@@ -1,12 +1,15 @@
 package nl.thijswijnen.geojob.UI;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,14 @@ public class ChooseRouteActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_route);
+        ImageButton settings = findViewById(R.id.activity_choose_route_settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),SettingsActivity.class);
+                startActivity(i);
+            }
+        });
 
         routes = new ArrayList<>();
         //dummy route
