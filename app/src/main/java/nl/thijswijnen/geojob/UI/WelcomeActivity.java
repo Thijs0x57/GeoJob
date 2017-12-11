@@ -2,6 +2,7 @@ package nl.thijswijnen.geojob.UI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,15 +18,15 @@ public class WelcomeActivity extends AppCompatActivity
 {
 
     //shared preferences
-    private final String PREFERENCES_NAME = "SharedPreferences";
-    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "NamePrefsFile";
+    protected static SharedPreferences preferences;
+    protected static SharedPreferences.Editor editor;
     private final String FIRST_STARTUP = "FIRST_STARTUP";
 
-    //buttons
-    private Button routeKiezenBtn;
-    private Button taalKeuzeBtn;
+    public boolean firstStartup;
+
     static Locale myLocale;
-    private static final String PREFS_NAME = "NamePrefsFile";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,15 +36,36 @@ public class WelcomeActivity extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
         Map<String, ?> keyValues = preferences.getAll();
 
-        if(!keyValues.isEmpty()){
-            String lang = (String)keyValues.get("language");
-            LanguageActivity.setLocale(getApplicationContext(),"en");
-        } else{
+        //preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        editor = preferences.edit();
+
+        //check if we need to display languageActivity
+        /*
+        if (!preferences.getBoolean(FIRST_STARTUP,false))
+        {
+            startActivity(new Intent(this, LanguageActivity.class));
+            editor.putBoolean(FIRST_STARTUP, true);
+            editor.apply();
+        }
+        */
+        //LanguageActivity.setLocale(this,preferences.getString("language", null));
+
+
+        if(!preferences.getAll().isEmpty())
+        {
+            String lang = preferences.getString("language", null);
+            LanguageActivity.setLocale(getApplicationContext(),lang);
+            finish();
+        } else
+        {
             Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
             startActivity(taalKeuzeIntent);
         }
 
-        routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
+        
+        //button navigation
+        Button routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
         routeKiezenBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -54,7 +76,7 @@ public class WelcomeActivity extends AppCompatActivity
             }
         });
 
-        taalKeuzeBtn = findViewById(R.id.welcome_TaalKiezen_btn);
+        Button taalKeuzeBtn = findViewById(R.id.welcome_TaalKiezen_btn);
         taalKeuzeBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
