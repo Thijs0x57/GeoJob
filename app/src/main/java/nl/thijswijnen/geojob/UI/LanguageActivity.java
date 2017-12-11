@@ -38,7 +38,7 @@ public class LanguageActivity extends AppCompatActivity
             firstTime = false;
         }
 
-        if(!keyValues.isEmpty()&&firstTime){       //checkt of er al een taal aanwezig ig TODO: als je later wilt aanpassen doet hij het ook niet
+        if(!keyValues.isEmpty()&&firstTime){
             String lang = (String)keyValues.get("language");
             setLocale(lang);
         }
