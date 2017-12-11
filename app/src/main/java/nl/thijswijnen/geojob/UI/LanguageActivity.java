@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -44,17 +45,12 @@ public class LanguageActivity extends AppCompatActivity
     }
 
     public void setLanguage(String prefName, String lang){
-        SharedPreferences preferences = getSharedPreferences(prefName,MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
-        editor.putString("language",lang);
-        editor.apply();
+        WelcomeActivity.editor.clear().apply();
+        WelcomeActivity.editor.putString("language", lang).apply();
         setLocale(getApplicationContext(),lang);
 
         //TODO: check if this is OK
-        Intent welcomeIntent = new Intent(this, WelcomeActivity.class);
-        startActivity(welcomeIntent);
+
     }
 
 
@@ -65,5 +61,8 @@ public class LanguageActivity extends AppCompatActivity
         Configuration conf = res.getConfiguration();
         conf.locale = WelcomeActivity.myLocale;
         res.updateConfiguration(conf, dm);
+
+        Intent welcomeIntent = new Intent(context, WelcomeActivity.class);
+        context.startActivity(welcomeIntent);
     }
 }
