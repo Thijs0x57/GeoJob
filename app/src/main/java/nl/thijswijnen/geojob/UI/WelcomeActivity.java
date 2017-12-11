@@ -18,7 +18,7 @@ public class WelcomeActivity extends AppCompatActivity
 {
 
     //shared preferences
-    private static final String PREFS_NAME = "NamePrefsFile";
+    protected static final String PREFS_NAME = "NamePrefsFile";
     protected static SharedPreferences preferences;
     protected static SharedPreferences.Editor editor;
     private final String FIRST_STARTUP = "FIRST_STARTUP";
