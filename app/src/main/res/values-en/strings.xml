@@ -15,4 +15,6 @@
     <string name="routeHervatten">Resume Route</string>
     <string name="testName">Language is in english</string>
     <string name="helpText">This application provides a virtual guide through the most beautiful city of the Netherlands.\nThis application needs certain permissions to work correctly, you will be asked about this.</string>
+    <string name="DetailRoute_StartRouteButton">Start route</string>
+    <string name="DetailRoute_PDBTitle">This route contains the following points:</string>
 </resources>
