@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
+import java.util.Locale;
+import java.util.Map;
+
 import nl.thijswijnen.geojob.R;
 
 public class WelcomeActivity extends AppCompatActivity
@@ -21,6 +24,8 @@ public class WelcomeActivity extends AppCompatActivity
     //buttons
     private Button routeKiezenBtn;
     private Button taalKeuzeBtn;
+    static Locale myLocale;
+    private static final String PREFS_NAME = "NamePrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,16 +33,16 @@ public class WelcomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        //shared preferences
-        sharedPreferences = getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE);
-        boolean firstStartUp = sharedPreferences.getBoolean(FIRST_STARTUP, true);
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+        Map<String, ?> keyValues = preferences.getAll();
 
-        if (firstStartUp)
-        {
-            Intent firstStartupIntent = new Intent(getApplicationContext(), LanguageActivity.class);
-            startActivity(firstStartupIntent);
+        if(!keyValues.isEmpty()){
+            String lang = (String)keyValues.get("language");
+            LanguageActivity.setLocale(getApplicationContext(),"en");
+        } else{
+            Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
+            startActivity(taalKeuzeIntent);
         }
-
 
         //button navigation
         routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
@@ -58,7 +63,6 @@ public class WelcomeActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
-                taalKeuzeIntent.putExtra("NOT","IMPORTANT");
                 startActivity(taalKeuzeIntent);
             }
         });
