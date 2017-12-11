@@ -1,8 +1,12 @@
 package nl.thijswijnen.geojob.UI;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,19 +17,21 @@ import java.util.Locale;
 import java.util.Map;
 
 import nl.thijswijnen.geojob.R;
+import nl.thijswijnen.geojob.Util.Constants;
 
 public class WelcomeActivity extends AppCompatActivity
 {
 
     //shared preferences
+
     protected static final String PREFS_NAME = "NamePrefsFile";
     protected static SharedPreferences preferences;
     protected static SharedPreferences.Editor editor;
-    private final String FIRST_STARTUP = "FIRST_STARTUP";
-
-    public boolean firstStartup;
 
     static Locale myLocale;
+
+    //permissions
+
 
 
     @Override
@@ -51,6 +57,14 @@ public class WelcomeActivity extends AppCompatActivity
         */
         //LanguageActivity.setLocale(this,preferences.getString("language", null));
 
+        if (ContextCompat.checkSelfPermission(this, Constants.PERMISSION_FINELOCATION_STRING)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Constants.PERMISSION_FINELOCATION_STRING}, Constants.PERMISSION_REQUEST_CODE);
+        }
+        if (ContextCompat.checkSelfPermission(this, Constants.PERMISSION_COARSELOCATION_STRING)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Constants.PERMISSION_COARSELOCATION_STRING}, Constants.PERMISSION_REQUEST_CODE);
+        }
 
         if(!preferences.getAll().isEmpty())
         {
