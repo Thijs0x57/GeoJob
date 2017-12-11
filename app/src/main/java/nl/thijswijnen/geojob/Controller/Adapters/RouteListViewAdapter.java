@@ -52,7 +52,7 @@ public class RouteListViewAdapter extends RecyclerView.Adapter<RouteListViewAdap
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(holder.cardView.getContext(), DetailRouteActivity.class);
-                i.putExtra("route", (Serializable) filterdRoute.get(position));
+                i.putExtra("route", filterdRoute.get(position));
                 holder.cardView.getContext().startActivity(i);
             }
         });

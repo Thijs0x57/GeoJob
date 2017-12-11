@@ -2,20 +2,47 @@ package nl.thijswijnen.geojob.Model;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by thijs_000 on 05-Dec-17.
  */
 
-public class PointOfInterest
+public class PointOfInterest implements Serializable
 {
     private String title;
-    private String description;
+    private String descriptionNL;
+    private String descriptionEN;
     private List<String> allImages;
     private List<String> allVideos;
-    private Location location; //moet volgens klassendiagram een Point zijn!
+    private double latitude;
+    private double longitude;
     private boolean visited;
+
+    public PointOfInterest(String title, String descriptionNL, String descriptionEN, LatLng location) {
+        this.title = title;
+        this.descriptionNL = descriptionNL;
+        this.descriptionEN = descriptionEN;
+
+        latitude = location.latitude;
+        longitude = location.longitude;
+
+        visited = false;
+        allImages = new ArrayList<>();
+        allVideos = new ArrayList<>();
+    }
+
+    public String getDescriptionNL() {
+        return descriptionNL;
+    }
+
+    public String getDescriptionEN() {
+        return descriptionEN;
+    }
 
     public String getTitle()
     {
@@ -25,16 +52,6 @@ public class PointOfInterest
     public void setTitle(String title)
     {
         this.title = title;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
     }
 
     public List<String> getAllImages()
@@ -57,14 +74,8 @@ public class PointOfInterest
         this.allVideos = allVideos;
     }
 
-    public Location getLocation()
-    {
-        return location;
-    }
-
-    public void setLocation(Location location)
-    {
-        this.location = location;
+    public LatLng getLocation() {
+        return new LatLng(latitude,longitude);
     }
 
     public boolean isVisited()
