@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".UI.MainActivity">
         </activity>
-        <activity android:name=".UI.WelcomeActivity">
+        <activity android:name=".UI.LanguageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -37,7 +37,7 @@
         </activity>
         <activity android:name=".UI.ChooseRouteActivity">
         </activity>
-        <activity android:name=".UI.LanguageActivity">
+        <activity android:name=".UI.WelcomeActivity">
         </activity>
         <activity android:name=".UI.DetailRouteActivity">
         </activity>
