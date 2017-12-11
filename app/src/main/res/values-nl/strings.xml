@@ -13,4 +13,6 @@
     <string name="CityGuide">City Guide</string>
     <string name="chooseLanguage">Taal Kiezen</string>
     <string name="routeHervatten">Route Hervatten</string>
+
+    <string name="testName">Taal is nederlands</string>
 </resources>

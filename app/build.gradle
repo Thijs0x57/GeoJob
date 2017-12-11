@@ -4,6 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "nl.thijswijnen.geojob"
+        vectorDrawables.useSupportLibrary = true
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
