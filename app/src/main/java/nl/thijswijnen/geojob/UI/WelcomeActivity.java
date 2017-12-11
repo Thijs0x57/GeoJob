@@ -40,6 +40,7 @@ public class WelcomeActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent taalKeuzeIntent = new Intent(getApplicationContext(), LanguageActivity.class);
+                taalKeuzeIntent.putExtra("NOT","IMPORTANT");
                 startActivity(taalKeuzeIntent);
             }
         });
