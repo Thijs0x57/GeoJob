@@ -1,9 +1,12 @@
 package nl.thijswijnen.geojob.UI;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -41,5 +44,13 @@ public class DetailRouteActivity extends AppCompatActivity
         }else if(current.equals(new Locale("nl"))){
             description.setText(r.getDescriptionNL());
         }
+
+        Button startRoute = findViewById(R.id.activity_detail_route_start_button);
+        startRoute.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(),NavigateActivity.class);
+            intent.putExtra("route",r);
+            startActivity(intent);
+            finish();
+        });
     }
 }
