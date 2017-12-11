@@ -13,6 +13,6 @@
     <string name="CityGuide">City Guide</string>
     <string name="chooseLanguage">Taal Kiezen</string>
     <string name="routeHervatten">Route Hervatten</string>
-
     <string name="testName">Taal is nederlands</string>
+    <string name="helpText">Deze applicatie verzorgd een virtuele rondleind door de mooiste stad van Nederland.\nOm de applicatie te gebruiken moet u de applicatie bepaalde rechten geven, hierom zal gevraagd worden.\n</string>
 </resources>
