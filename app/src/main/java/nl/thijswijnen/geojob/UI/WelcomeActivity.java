@@ -78,9 +78,6 @@ public class WelcomeActivity extends AppCompatActivity
             finish();
         }
 
-        //debug for navigation
-        startActivity(new Intent(this, NavigateActivity.class));
-
         
         //button navigation
         Button routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
