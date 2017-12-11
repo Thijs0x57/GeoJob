@@ -44,18 +44,9 @@ public class ChooseRouteActivity extends AppCompatActivity
 
         routes = new ArrayList<>();
 
-        Route r = new BlindWalls();
-        r.load(this);
-        routes.add(r);
+        routes.addAll(BlindWalls.getBlindWallsRoutes(getApplicationContext()));
 
-        //dummy route
-        Route route = new Route();
-        route.setRouteTitle("test");
-        routes.add(route);
 
-        Route p = new Route();
-        p.setRouteTitle("test2");
-        routes.add(p);
 
         EditText search = findViewById(R.id.activity_choose_route_search_edittext);
         search.setHint("\uD83D\uDD0D Search");

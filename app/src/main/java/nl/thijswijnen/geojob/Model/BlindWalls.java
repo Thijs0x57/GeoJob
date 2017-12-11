@@ -21,13 +21,15 @@ import java.util.List;
 
 public class BlindWalls extends Route implements Serializable
 {
+
     @Override
     public void load(Context context)
     {
         setRouteTitle("Blindwalls");
+        setDescriptionEN("The blindwalls route is a route ");
         List<PointOfInterest> pointOfInterests = new ArrayList<>();
         try {
-            JSONArray array = new JSONArray(loadJSONFromAsset(context));
+            JSONArray array = new JSONArray(loadJSONFromAsset(context,"Blindwalls.json"));
             for (int i = 0; i < array.length(); i++) {
                 JSONObject wall = array.getJSONObject(i);
 
@@ -65,13 +67,55 @@ public class BlindWalls extends Route implements Serializable
             e.printStackTrace();
         }
         setAllPointOfInterests(pointOfInterests);
+
+
+    }
+
+    public static List<Route> getBlindWallsRoutes(Context context){
+        BlindWalls b = new BlindWalls();
+        b.load(context);
+
+        List<Route> blindwalls = new ArrayList<>();
+
+        try {
+            JSONArray routes = new JSONArray(loadJSONFromAsset(context,"BlindwallRoutes.json"));
+            for (int i = 0; i < routes.length(); i++) {
+                JSONObject route = routes.getJSONObject(i);
+                BlindWalls bw = new BlindWalls();
+                bw.setRouteTitle("Blindwall" + route.getInt("id"));
+                bw.setDescriptionEN("This route is " + route.getString("distance") + " long. When you " + route.getString("type") + " this route its " +
+                route.getString("time") + " long.");
+                bw.setDescriptionNL("Deze route is " + route.getString("distance") + " lang. Het type route is " + route.getString("type") + ". Als je dit aanhoudt is deze route " +
+                        route.getString("time") + " lang.");
+
+                JSONArray points = route.getJSONArray("points");
+                for (int j = 0; j < points.length(); j++) {
+                    JSONObject point = points.getJSONObject(j);
+
+                    //checks for each point in the route the mural id and if thats is equal to another id it wil add it to this route.
+                    int id = point.getInt("muralId");
+                    for (int i1 = 0; i1 < b.getAllPointsOfInterest().size(); i1++) {
+                        if(i1 == id){
+                            List<PointOfInterest> bwpois = bw.getAllPointsOfInterest();
+                            bwpois.add(b.getAllPointsOfInterest().get(i1));
+                            bw.setAllPointOfInterests(bwpois);
+                        }
+                    }
+                }
+                blindwalls.add(bw);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return blindwalls;
     }
 
 
-    private String loadJSONFromAsset(Context context) {
+
+    private static String loadJSONFromAsset(Context context,String jsonName) {
         String json = null;
         try {
-            InputStream is = context.getAssets().open("Blindwalls.json");
+            InputStream is = context.getAssets().open(jsonName);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

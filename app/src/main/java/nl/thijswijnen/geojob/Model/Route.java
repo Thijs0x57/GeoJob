@@ -3,6 +3,7 @@ package nl.thijswijnen.geojob.Model;
 import android.content.Context;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,10 +14,16 @@ public class Route implements Serializable
 {
     private String routeTitle;
     private List<PointOfInterest> allPointOfInterests;
+    private String descriptionEN;
+    private String descriptionNL;
 
     public List<PointOfInterest> getAllPointsOfInterest()
     {
         return allPointOfInterests;
+    }
+
+    public Route() {
+        allPointOfInterests = new ArrayList<>();
     }
 
     public void load(Context context)
@@ -37,5 +44,21 @@ public class Route implements Serializable
     public String getRouteTitle()
     {
         return routeTitle;
+    }
+
+    public String getDescriptionEN() {
+        return descriptionEN;
+    }
+
+    public void setDescriptionEN(String descriptionEN) {
+        this.descriptionEN = descriptionEN;
+    }
+
+    public String getDescriptionNL() {
+        return descriptionNL;
+    }
+
+    public void setDescriptionNL(String descriptionNL) {
+        this.descriptionNL = descriptionNL;
     }
 }
