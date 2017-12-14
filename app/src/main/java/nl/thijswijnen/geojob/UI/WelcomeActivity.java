@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import java.util.Locale;
 import java.util.Map;
@@ -61,6 +62,15 @@ public class WelcomeActivity extends AppCompatActivity
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {Constants.PERMISSION_COARSELOCATION_STRING}, Constants.PERMISSION_REQUEST_CODE);
         }
+
+        ImageView HulpButton = findViewById(R.id.welcome_imgHulp);
+        HulpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent helpActivity = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(helpActivity);
+            }
+        });
 
         if(!preferences.getAll().isEmpty())
         {
