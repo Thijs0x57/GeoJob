@@ -28,7 +28,7 @@ public abstract class Route implements Serializable
 
     public void load(Context context)
     {
-        //fill method
+        //fill method 
     }
 
     public void setAllPointOfInterests(List<PointOfInterest> allPointOfInterests)
