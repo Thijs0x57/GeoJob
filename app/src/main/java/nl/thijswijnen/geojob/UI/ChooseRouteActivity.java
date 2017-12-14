@@ -18,6 +18,7 @@ import nl.thijswijnen.geojob.Controller.Adapters.ChooseRouteActivityItemDecorato
 import nl.thijswijnen.geojob.Controller.Adapters.RouteListViewAdapter;
 import nl.thijswijnen.geojob.Model.BlindWall;
 import nl.thijswijnen.geojob.Model.BlindWalls;
+import nl.thijswijnen.geojob.Model.HistorischeKilometer;
 import nl.thijswijnen.geojob.Model.Route;
 import nl.thijswijnen.geojob.R;
 
@@ -33,12 +34,10 @@ public class ChooseRouteActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_route);
         ImageButton settings = findViewById(R.id.activity_choose_route_settings);
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),SettingsActivity.class);
-                startActivity(i);
-            }
+        settings.setOnClickListener(view ->
+        {
+            Intent i = new Intent(getApplicationContext(),SettingsActivity.class);
+            startActivity(i);
         });
 
 
@@ -47,6 +46,22 @@ public class ChooseRouteActivity extends AppCompatActivity
         routes.addAll(BlindWalls.getBlindWallsRoutes(getApplicationContext()));
 
 
+        Route blindWallsRoute = new BlindWalls();
+        blindWallsRoute.load(this);
+        routes.add(blindWallsRoute);
+
+        Route historischeKilometerRoute = new HistorischeKilometer();
+        historischeKilometerRoute.load(this);
+        routes.add(historischeKilometerRoute);
+
+        //dummy route
+//        Route route = new Route();
+//        route.setRouteTitle("test");
+//        routes.add(route);
+//
+//        Route p = new Route();
+//        p.setRouteTitle("test2");
+//        routes.add(p);
 
         EditText search = findViewById(R.id.activity_choose_route_search_edittext);
         search.setHint("\uD83D\uDD0D "+ getString(R.string.ChooseRouteActivity_Search));

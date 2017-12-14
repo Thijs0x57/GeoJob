@@ -39,9 +39,9 @@ public class BlindWalls extends Route implements Serializable
                 double longitude = wall.getDouble("longitude");
                 LatLng location = new LatLng(latitude,longitude);
 
-                JSONObject discription = wall.getJSONObject("description");
-                String descriptionEN = discription.getString("en");
-                String descriptionNL = discription.getString("nl");
+                JSONObject description = wall.getJSONObject("description");
+                String descriptionEN = description.getString("en");
+                String descriptionNL = description.getString("nl");
 
                 String artist = wall.getString("author");
                 String photographer = wall.getString("photographer");
