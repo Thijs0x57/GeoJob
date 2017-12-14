@@ -5,7 +5,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,7 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import nl.thijswijnen.geojob.Model.CurrentLocation;
+import nl.thijswijnen.geojob.Model.LocationHandler;
 import nl.thijswijnen.geojob.R;
 
 public class NavigateActivity extends FragmentActivity implements OnMapReadyCallback
@@ -56,7 +55,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     {
         mMap = googleMap;
 
-        lastLocation = new CurrentLocation(this, locationManager, LOCATION_PROVIDER).getCurrentLocation();
+        lastLocation = new LocationHandler(this, locationManager, LOCATION_PROVIDER).getCurrentLocation();
         double latitude = lastLocation.getLatitude();
         double longitude = lastLocation.getLongitude();
         LatLng currentLocationLatLng = new LatLng(latitude, longitude);
