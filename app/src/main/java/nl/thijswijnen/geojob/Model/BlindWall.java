@@ -26,36 +26,25 @@ public class BlindWall extends PointOfInterest
         this.materialNl = materialNl;
     }
 
-
-    public String getArtist() {
+    public String getArtist()
+    {
         return artist;
     }
 
-    public void setArtist(String artist) {
+    public void setArtist(String artist)
+    {
         this.artist = artist;
     }
 
-    public String getPhotographer() {
+    public String getPhotographer()
+    {
         return photographer;
     }
 
-    public void setPhotographer(String photographer) {
+    public void setPhotographer(String photographer)
+    {
         this.photographer = photographer;
     }
 
-    public String getMaterialEn() {
-        return materialEn;
-    }
 
-    public void setMaterialEn(String materialEn) {
-        this.materialEn = materialEn;
-    }
-
-    public String getMaterialNl() {
-        return materialNl;
-    }
-
-    public void setMaterialNl(String materialNl) {
-        this.materialNl = materialNl;
-    }
 }

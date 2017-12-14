@@ -45,11 +45,8 @@ public class LanguageActivity extends AppCompatActivity
     }
 
     public void setLanguage(String prefName, String lang){
-        SharedPreferences preferences = getSharedPreferences(WelcomeActivity.PREFS_NAME,MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        editor.clear().apply();
-        editor.putString("language", lang).apply();
+        WelcomeActivity.editor.clear().apply();
+        WelcomeActivity.editor.putString("language", lang).apply();
         setLocale(getApplicationContext(),lang);
         finish();
         //TODO: check if this is OK
