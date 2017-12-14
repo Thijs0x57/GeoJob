@@ -191,7 +191,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/StartRouteButton"
+            app:layout_constraintBottom_toTopOf="@+id/detailRoute_StartRoute_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/standard_gdlnLeftbar2"
             app:layout_constraintTop_toBottomOf="@+id/PointsDescriptionBoxTitle">
@@ -204,7 +204,7 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/StartRouteButton"
+            android:id="@+id/detailRoute_StartRoute_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
