@@ -49,7 +49,7 @@ public class ChooseRouteActivity extends AppCompatActivity
 
 
         EditText search = findViewById(R.id.activity_choose_route_search_edittext);
-        search.setHint("\uD83D\uDD0D Search");
+        search.setHint("\uD83D\uDD0D "+ getString(R.string.ChooseRouteActivity_Search));
 
         search.addTextChangedListener(new TextWatcher() {
             @Override

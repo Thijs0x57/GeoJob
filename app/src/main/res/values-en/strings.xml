@@ -12,7 +12,7 @@
     <string name="Common_Breda2017">Breda 2017</string>
     <string name="Common_CityGuide">City Guide</string>
     <string name="NavigateActivity_ResumeRoute">Resume Route</string>
-    <string name="HelpActivity_helpText">This application provides a virtual guide through the most beautiful city of the Netherlands.\nThis application needs certain permissions to work correctly, you will be asked about this.</string>
+    <string name="HelpActivity_helpText">This application provides a virtual guide through the most beautiful city of the Netherlands.\n\nThis application needs certain permissions to work correctly, you will be asked about this.\n\nOn the homescreen you choose if you want to set the language or set a route.\nIf you select a route then you can follow the route. If you select a point of interest you can see information about this point.</string>
     <string name="DetailRouteActivity_StartRouteButton">Start route</string>
     <string name="DetailRouteActivity_PDBTitle">This route has the following points:</string>
 </resources>
