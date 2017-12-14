@@ -68,7 +68,7 @@ public class HistorischeKilometer extends Route implements Serializable
                 }
                 List<String> videosList = listDataVideos;
 
-                PointOfInterest poi = new PointOfInterest(title, descriptionNL, descriptionEN, location);
+                PointOfInterest poi = new Monument(title, descriptionNL, descriptionEN, location);
                 poi.setAllImages(imagesList);
                 poi.setAllVideos(videosList);
             }
