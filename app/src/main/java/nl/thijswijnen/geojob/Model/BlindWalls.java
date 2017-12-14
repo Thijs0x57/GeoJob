@@ -27,7 +27,6 @@ public class BlindWalls extends Route implements Serializable
     {
         setRouteTitle("Blindwalls");
         setDescriptionEN("The blindwalls route is a route ");
-        setDescriptionNL("The blindwalls route is een route");
         List<PointOfInterest> pointOfInterests = new ArrayList<>();
         try {
             JSONArray array = new JSONArray(loadJSONFromAsset(context,"Blindwalls.json"));

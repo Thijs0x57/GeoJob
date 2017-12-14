@@ -1,14 +1,18 @@
 package nl.thijswijnen.geojob.UI;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import java.util.Locale;
 import java.util.Map;
@@ -22,7 +26,8 @@ public class WelcomeActivity extends AppCompatActivity
     //shared preferences
 
     protected static final String PREFS_NAME = "NamePrefsFile";
-
+    protected static SharedPreferences preferences;
+    protected static SharedPreferences.Editor editor;
 
     static Locale myLocale;
 
@@ -40,7 +45,7 @@ public class WelcomeActivity extends AppCompatActivity
 
         //preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+        editor = preferences.edit();
 
         //check if we need to display languageActivity
         /*
@@ -62,6 +67,15 @@ public class WelcomeActivity extends AppCompatActivity
             ActivityCompat.requestPermissions(this, new String[] {Constants.PERMISSION_COARSELOCATION_STRING}, Constants.PERMISSION_REQUEST_CODE);
         }
 
+        ImageView HulpButton = findViewById(R.id.welcome_imgHulp);
+        HulpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent helpActivity = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(helpActivity);
+            }
+        });
+
         if(!preferences.getAll().isEmpty())
         {
             if(WelcomeActivity.myLocale == null){
@@ -78,7 +92,7 @@ public class WelcomeActivity extends AppCompatActivity
 
         
         //button navigation
-        Button routeKiezenBtn = findViewById(R.id.welcome_chooose_route_btn);
+        Button routeKiezenBtn = findViewById(R.id.welcome_RouteKiezen_btn);
         routeKiezenBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
