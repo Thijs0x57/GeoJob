@@ -15,4 +15,5 @@
     <string name="HelpActivity_helpText">This application provides a virtual guide through the most beautiful city of the Netherlands.\nThis application needs certain permissions to work correctly, you will be asked about this.</string>
     <string name="DetailRouteActivity_StartRouteButton">Start route</string>
     <string name="DetailRouteActivity_PDBTitle">This route has the following points:</string>
+    <string name="historischeKilometer">Historic Kilometer</string>
 </resources>

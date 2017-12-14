@@ -15,4 +15,5 @@
     <string name="HelpActivity_helpText">Deze applicatie verzorgd een virtuele rondleind door de mooiste stad van Nederland.\nOm de applicatie te gebruiken moet u de applicatie bepaalde rechten geven, hierom zal gevraagd worden.\n</string>
     <string name="DetailRouteActivity_StartRouteButton">Route gaan lopen</string>
     <string name="DetailRouteActivity_PDBTitle">Deze heeft de volgende kunstwerken:</string>
+    <string name="historischeKilometer">Historische Kilometer</string>
 </resources>

@@ -10,12 +10,11 @@
     <string name="SettingsActivity_ShowNotifications">Show Notifications</string>
     <string name="Common_Breda2017">Breda 2017</string>
     <string name="Common_CityGuide">City Guide</string>
-    <string name="title_activity_navigate">Map</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="NavigateActivity_ResumeRoute">Resume Route</string>
     <string name="HelpActivity_helpText">This application provides a virtual guide through the most beautiful city of the Netherlands.\nThis application needs certain permissions to work correctly, you will be asked about this.</string>
     <string name="DetailRouteActivity_StartRouteButton">Start route</string>
     <string name="DetailRouteActivity_PDBTitle">This route has the followings points:</string>
+    <string name="historischeKilometer">Historic Kilometer</string>
 </resources>

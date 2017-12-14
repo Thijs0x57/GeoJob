@@ -44,7 +44,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -67,6 +66,4 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         mMap.addMarker(new MarkerOptions().position(currentLocationLatLng).title("Current location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));
     }
-
-
 }
