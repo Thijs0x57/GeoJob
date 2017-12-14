@@ -40,8 +40,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         ImageButton settingsButton = findViewById(R.id.navigate_settings_btn);
         settingsButton.setOnClickListener(view ->
                 startActivity(new Intent(this, SettingsActivity.class)));
-
-
     }
 
     /**

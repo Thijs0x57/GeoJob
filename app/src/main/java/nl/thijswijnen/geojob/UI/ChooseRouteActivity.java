@@ -45,11 +45,6 @@ public class ChooseRouteActivity extends AppCompatActivity
 
         routes.addAll(BlindWalls.getBlindWallsRoutes(getApplicationContext()));
 
-
-        Route blindWallsRoute = new BlindWalls();
-        blindWallsRoute.load(this);
-        routes.add(blindWallsRoute);
-
         Route historischeKilometerRoute = new HistorischeKilometer();
         historischeKilometerRoute.load(this);
         routes.add(historischeKilometerRoute);
