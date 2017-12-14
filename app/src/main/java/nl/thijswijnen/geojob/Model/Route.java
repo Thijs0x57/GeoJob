@@ -10,7 +10,7 @@ import java.util.List;
  * Created by thijs_000 on 05-Dec-17.
  */
 
-public abstract class Route implements Serializable
+public class Route implements Serializable
 {
     private String routeTitle;
     private List<PointOfInterest> allPointOfInterests;

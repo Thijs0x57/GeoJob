@@ -10,5 +10,6 @@ public class HistorischeKilometer extends Route implements Serializable
 {
     public void load()
     {
+        //fill method
     }
 }
