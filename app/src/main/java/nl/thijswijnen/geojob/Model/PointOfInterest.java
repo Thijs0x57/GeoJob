@@ -12,7 +12,7 @@ import java.util.List;
  * Created by thijs_000 on 05-Dec-17.
  */
 
-public class PointOfInterest implements Serializable
+public abstract class PointOfInterest implements Serializable
 {
     private String title;
     private String descriptionNL;

@@ -93,6 +93,7 @@ public class HistorischeKilometer extends Route implements Serializable
             return null;
         }
         return json;
+
     }
 }
 
