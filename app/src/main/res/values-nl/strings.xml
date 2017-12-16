@@ -16,4 +16,6 @@
     <string name="DetailRouteActivity_StartRouteButton">Route gaan lopen</string>
     <string name="DetailRouteActivity_PDBTitle">Deze heeft de volgende kunstwerken:</string>
     <string name="historischeKilometer">Historische Kilometer</string>
+    <string name="BlindWalls_walkType">loopt</string>
+    <string name="BlindWalls_bikeType">fietst</string>
 </resources>

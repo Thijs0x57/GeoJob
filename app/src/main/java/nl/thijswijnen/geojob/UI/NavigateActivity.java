@@ -55,10 +55,10 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     {
         mMap = googleMap;
 
-        lastLocation = new LocationHandler(this, locationManager, LOCATION_PROVIDER).getCurrentLocation();
-        double latitude = lastLocation.getLatitude();
-        double longitude = lastLocation.getLongitude();
-        LatLng currentLocationLatLng = new LatLng(latitude, longitude);
+        LocationHandler handler = LocationHandler.getInstance(this);
+        handler.setShouldShareLocation(true);
+        Location lastLocation = handler.getLocation();
+        LatLng currentLocationLatLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 
         mMap.addMarker(new MarkerOptions().position(currentLocationLatLng).title("Current location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));

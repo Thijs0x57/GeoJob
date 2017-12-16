@@ -19,4 +19,6 @@
     <string name="historischeKilometer">Historic Kilometer</string>
     <string name="title_activity_navigate">Map</string>
     <string name="hello_blank_fragment">Map</string>
+    <string name="BlindWalls_walkType">walk</string>
+    <string name="BlindWalls_bikeType">bike</string>
 </resources>

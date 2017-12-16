@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.thijswijnen.geojob.R;
+
 /**
  * Created by thijs_000 on 05-Dec-17.
  */
@@ -83,10 +85,17 @@ public class BlindWalls extends Route implements Serializable
             for (int i = 0; i < routes.length(); i++) {
                 JSONObject route = routes.getJSONObject(i);
                 BlindWalls bw = new BlindWalls();
-                bw.setRouteTitle("Blindwall" + route.getInt("id"));
-                bw.setDescriptionEN("This route is " + route.getString("distance") + " long. When you " + route.getString("type") + " this route its " +
+                bw.setRouteTitle("Blindwall route " + route.getInt("id"));
+                String type = "";
+                if (route.getString("type").equals("walk"))
+                {
+                    type = context.getString(R.string.BlindWalls_walkType);
+                }else if (route.getString("type").equals("bike")){
+                    type = context.getString(R.string.BlindWalls_bikeType);
+                }
+                bw.setDescriptionEN("This route is " + route.getString("distance") + " long. When you " + type + " this route its " +
                 route.getString("time") + " long.");
-                bw.setDescriptionNL("Deze route is " + route.getString("distance") + " lang. Het type route is " + route.getString("type") + ". Als je dit aanhoudt is deze route " +
+                bw.setDescriptionNL("Deze route is " + route.getString("distance") + " lang. Als je " + type + " is deze route " +
                         route.getString("time") + " lang.");
 
                 JSONArray points = route.getJSONArray("points");
