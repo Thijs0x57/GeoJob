@@ -18,4 +18,7 @@
     <string name="historischeKilometer">Historic Kilometer</string>
     <string name="BlindWalls_walkType">walk</string>
     <string name="BlindWalls_bikeType">bike</string>
+    <string name="Common_artist">"Artist: "</string>
+    <string name="Common_photographer">"Photographer: "</string>
+    <string name="Common_material">"Material: "</string>
 </resources>
