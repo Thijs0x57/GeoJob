@@ -63,6 +63,8 @@ public class RouteListViewAdapter extends RecyclerView.Adapter<RouteListViewAdap
         return filterdRoute.size();
     }
 
+    public Route getRotue(int position) { return  routes.get(position);}
+
     public class RouteViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
         private TextView text;

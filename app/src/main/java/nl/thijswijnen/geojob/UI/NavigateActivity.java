@@ -39,10 +39,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         ImageButton settingsButton = findViewById(R.id.navigate_settings_btn);
         settingsButton.setOnClickListener(view ->
                 startActivity(new Intent(this, SettingsActivity.class)));
-
-
     }
-
 
     /**
      * Manipulates the map once available.
@@ -66,6 +63,4 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         mMap.addMarker(new MarkerOptions().position(currentLocationLatLng).title("Current location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));
     }
-
-
 }
