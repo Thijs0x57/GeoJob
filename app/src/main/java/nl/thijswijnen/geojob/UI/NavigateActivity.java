@@ -1,11 +1,15 @@
 package nl.thijswijnen.geojob.UI;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +25,7 @@ import nl.thijswijnen.geojob.Model.PointOfInterest;
 import nl.thijswijnen.geojob.Model.Route;
 import nl.thijswijnen.geojob.Model.RouteHandler;
 import nl.thijswijnen.geojob.R;
+import nl.thijswijnen.geojob.Util.Constants;
 
 public class NavigateActivity extends FragmentActivity implements OnMapReadyCallback
 {
@@ -59,9 +64,49 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
     private void callRouteHandler()
     {
+        Location currentLoc = getCurrentLocation();
         List<PointOfInterest> pointOfInterestList = route.getAllPointsOfInterest();
-        LatLng currentLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-        routeHandler = new RouteHandler(this, currentLocation, pointOfInterestList);
+        if (routeHandler == null)
+        {
+            routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList);
+        }else
+        {
+            mMap.addPolyline(routeHandler.getPolylineOptions());
+            mMap.animateCamera(routeHandler.getCameraUpdate());
+        }
+    }
+
+    public Location getCurrentLocation() {
+        Location currentLocation = getLastKnownLocation();
+        if (currentLocation == null)
+        {
+            Toast noGPSToast = Toast.makeText(getApplicationContext(),"NO GPS SIGNAL", Toast.LENGTH_LONG);
+            noGPSToast.show();
+        }
+        return currentLocation;
+    }
+
+    private Location getLastKnownLocation() {
+        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        Location bestLocation = null;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_REQUEST_CODE);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, Constants.PERMISSION_REQUEST_CODE);
+        }
+        for (String provider : providers) {
+            Location l = locationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 
     /**

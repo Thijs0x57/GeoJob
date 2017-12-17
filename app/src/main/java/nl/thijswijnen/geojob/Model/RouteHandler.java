@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import nl.thijswijnen.geojob.R;
@@ -41,6 +42,7 @@ public class RouteHandler
     private Context context;
 
     private List<List<LatLng>> lines;
+    List<LatLng> poisLatLng = new LinkedList<LatLng>();
     private double distance = 0;
 
     private double northLat;
@@ -54,7 +56,6 @@ public class RouteHandler
     public RouteHandler(Context context, LatLng origin, List<PointOfInterest> points)
     {
         this.context = context;
-        List<LatLng> poisLatLng = null;
         mapQueue = Volley.newRequestQueue(context);
         for (PointOfInterest p : points)
         {
@@ -63,11 +64,15 @@ public class RouteHandler
                 poisLatLng.add(p.getLatLng());
             }
         }
-        String url = getUrl(origin, poisLatLng);
+        String url = getUrl(origin);
         lines = new ArrayList<>();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
                 addMarker(origin, context.getString(R.string.Common_origin));
+                for (int i = 0; i < poisLatLng.size(); i++)
+                {
+                    addMarker(new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude), points.get(i).getTitle());
+                }
 
                 JSONArray jRoutes = response.getJSONArray("routes");
                 JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
@@ -110,24 +115,29 @@ public class RouteHandler
     //normal route https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood4&key=AIzaSyDlPMbvEikR40aphGhAQHBirTTPonIR5Ic
     //route with waypoints: https://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|Lexington,MA&key=YOUR_API_KEY
     //route with waypoints: https://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|via:Lexington,MA&key=YOUR_API_KEY
-    //route with waypoints: https://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=42.4614275,-71.0552091,MA|Lexington,MA&key=AIzaSyDlPMbvEikR40aphGhAQHBirTTPonIR5Ic
+    //route with waypoints: https://maps.googleapis.com/maps/api/directions/json? origin=Boston,MA &destination=Concord,MA &waypoints=42.4614275,-71.0552091,MA |Lexington,MA&key=AIzaSyDlPMbvEikR40aphGhAQHBirTTPonIR5Ic
 
-    public String getUrl(LatLng origin, List<LatLng> points)
+    public String getUrl(LatLng origin)
     {
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude + ",MA";
 
-        LatLng destinationLatLng = new LatLng(points.get(points.size()).latitude, points.get(points.size()).longitude);
-        String str_dest = "MA&destination=" + destinationLatLng.latitude + "," + destinationLatLng.longitude;
+        LatLng destinationLatLng = new LatLng(poisLatLng.get(poisLatLng.size()-1).latitude, poisLatLng.get(poisLatLng.size()-1).longitude);
+        String str_dest = "destination=" + destinationLatLng.latitude + "," + destinationLatLng.longitude + ",MA";
 
         String trafficMode = "mode=walking";
 
-        String str_waypoints = "";
+        String str_waypoints = "waypoints=";
+        str_waypoints += poisLatLng.get(0).latitude + "," + poisLatLng.get(0).longitude + ",MA";
+        for (int i = 1; i < poisLatLng.size()-1; i++)
+        {
+            str_waypoints += " |" +poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude + ", MA";
+        }
 
-        String parameters = str_origin + "," + str_dest + "," + str_waypoints + "&" + trafficMode;
+        String parameters = str_origin + "&" + str_dest + "&" + str_waypoints + "&" + trafficMode;
 
         String output = "json";
 
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + Constants.API_KEY;
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&" + Constants.API_KEY;
 
         return url;
     }

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GeoJob.iml" filepath="$PROJECT_DIR$/GeoJob.iml" />
       <module fileurl="file://D:\Users\thijs_000\Desktop\Programming\GeoJobGit\GeoJob.iml" filepath="D:\Users\thijs_000\Desktop\Programming\GeoJobGit\GeoJob.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GeoJobGit.iml" filepath="$PROJECT_DIR$/GeoJobGit.iml" />
       <module fileurl="file://F:\Ti\2.2\GeoJob\GeoJobGit.iml" filepath="F:\Ti\2.2\GeoJob\GeoJobGit.iml" />
       <module fileurl="file://C:\Users\Jeffrey\Desktop\GeoJob\GeoJobGit.iml" filepath="C:\Users\Jeffrey\Desktop\GeoJob\GeoJobGit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
