@@ -85,7 +85,7 @@ public class BlindWalls extends Route implements Serializable
             for (int i = 0; i < routes.length(); i++) {
                 JSONObject route = routes.getJSONObject(i);
                 BlindWalls bw = new BlindWalls();
-                bw.setRouteTitle("Blindwall route " + route.getInt("id"));
+                bw.setRouteTitle("Blindwall "+ route.getJSONObject("name").getString("en"));
                 String type = "";
                 if (route.getString("type").equals("walk"))
                 {

@@ -1,6 +1,7 @@
 package nl.thijswijnen.geojob.UI;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,9 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Locale;
 
 import nl.thijswijnen.geojob.Controller.Adapters.PoiListViewAdapter;
+import nl.thijswijnen.geojob.Model.PointOfInterest;
 import nl.thijswijnen.geojob.Model.Route;
 import nl.thijswijnen.geojob.R;
 
@@ -19,6 +22,7 @@ public class DetailRouteActivity extends AppCompatActivity
 {
 
     private Route route;
+    RecyclerView pois;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,11 +32,12 @@ public class DetailRouteActivity extends AppCompatActivity
 
         Bundle b = getIntent().getExtras();
         Route r = (Route) b.getSerializable("route");
+        final List<PointOfInterest> poisList = r.getAllPointsOfInterest();
 
         TextView title = findViewById(R.id.activity_detail_route_title);
         title.setText(r.getRouteTitle());
 
-        RecyclerView pois = findViewById(R.id.activity_detail_route_pinpoints_recycleview);
+        pois = findViewById(R.id.activity_detail_route_pinpoints_recycleview);
         pois.setLayoutManager(new LinearLayoutManager(this));
         PoiListViewAdapter adapter = new PoiListViewAdapter(r.getAllPointsOfInterest());
         pois.setAdapter(adapter);
@@ -44,6 +49,25 @@ public class DetailRouteActivity extends AppCompatActivity
         }else if(current.equals(new Locale("nl"))){
             description.setText(r.getDescriptionNL());
         }
+
+
+
+        final int speedScroll = 500;
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            int count = 0;
+            @Override
+            public void run() {
+                if(count < poisList.size()){
+                    pois.scrollToPosition(++count);
+                    handler.postDelayed(this,speedScroll);
+                }
+
+
+            }
+        };
+
+        handler.postDelayed(runnable,speedScroll);
 
         Button startRoute = findViewById(R.id.activity_detail_route_start_button);
         startRoute.setOnClickListener(view -> {
