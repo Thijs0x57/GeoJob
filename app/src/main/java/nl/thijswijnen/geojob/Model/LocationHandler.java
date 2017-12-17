@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.Serializable;
 import java.util.concurrent.Executor;
 
 import nl.thijswijnen.geojob.R;
@@ -25,7 +26,7 @@ import nl.thijswijnen.geojob.R;
  * Created by thijs_000 on 11-Dec-17.
  */
 
-public class LocationHandler
+public class LocationHandler implements Serializable
 {
     private FusedLocationProviderClient fusedLocationProviderClient; //no settter or getter
 
