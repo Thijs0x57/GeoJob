@@ -24,4 +24,7 @@
     <string name="Common_artist">Artist:</string>
     <string name="Common_photographer">Photographer:</string>
     <string name="Common_material">Material:</string>
+    <string name="Error_title">An error occured</string>
+    <string name="Error_noGPS">No GPS signal, please turn on GPS</string>
+    <string name="Common_ok">Ok</string>
 </resources>

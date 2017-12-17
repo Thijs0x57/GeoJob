@@ -21,4 +21,7 @@
     <string name="Common_artist">"Artiest: "</string>
     <string name="Common_photographer">"Fotograaf: "</string>
     <string name="Common_material">"Materiaal: "</string>
+    <string name="Error_title">Een fout vond plaats</string>
+    <string name="Error_noGPS">Geen GPS signaal, zet de GPS aan.</string>
+    <string name="Common_ok">Oké</string>
 </resources>

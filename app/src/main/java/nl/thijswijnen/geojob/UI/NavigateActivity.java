@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,6 +26,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     final String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
     private LocationManager locationManager;
     private Location lastLocation = null;
+    private LocationHandler locationHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +41,9 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         ImageButton settingsButton = findViewById(R.id.navigate_settings_btn);
         settingsButton.setOnClickListener(view ->
                 startActivity(new Intent(this, SettingsActivity.class)));
+
+        locationHandler = LocationHandler.getInstance(this);
+        locationHandler.setShouldShareLocation(true);
     }
 
     /**
@@ -55,12 +60,12 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     {
         mMap = googleMap;
 
-        LocationHandler handler = LocationHandler.getInstance(this);
-        handler.setShouldShareLocation(true);
-        Location lastLocation = handler.getLocation();
-        LatLng currentLocationLatLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-
-        mMap.addMarker(new MarkerOptions().position(currentLocationLatLng).title("Current location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));
+        Location lastLocation = locationHandler.getLocation();
+        if (lastLocation != null)
+        {
+            LatLng currentLocationLatLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(currentLocationLatLng).title("Current location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));
+        }
     }
 }

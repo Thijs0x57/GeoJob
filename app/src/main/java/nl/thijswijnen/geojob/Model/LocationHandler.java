@@ -1,8 +1,11 @@
 package nl.thijswijnen.geojob.Model;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
@@ -11,6 +14,12 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.concurrent.Executor;
+
+import nl.thijswijnen.geojob.R;
 
 /**
  * Created by thijs_000 on 11-Dec-17.
@@ -40,7 +49,7 @@ public class LocationHandler
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         this.context = context;
         shouldShareLocation = true;
-        updateFreq = 20000;
+        updateFreq = 2000;
     }
 
     private LocationCallback locationCallback = new LocationCallback() {
@@ -90,6 +99,10 @@ public class LocationHandler
 
     public Location getLocation() {
         return location;
+    }
+
+    public void setLocation(Location loc){
+        location = loc;
     }
 
 //    private Location currentLocation;
