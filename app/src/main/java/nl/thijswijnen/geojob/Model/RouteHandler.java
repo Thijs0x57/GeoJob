@@ -1,5 +1,6 @@
 package nl.thijswijnen.geojob.Model;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,7 +41,7 @@ import nl.thijswijnen.geojob.Util.Constants;
 public class RouteHandler
 {
     private String TAG = "RouteHandler";
-    private Context context;
+    private Activity context;
 
     private List<List<LatLng>> lines;
     List<LatLng> poisLatLng = new LinkedList<LatLng>();
@@ -50,12 +52,16 @@ public class RouteHandler
     private double southLat;
     private double southLng;
 
+    private GoogleMap mMap;
+
     public static RequestQueue mapQueue;
 
 
-    public RouteHandler(Context context, LatLng origin, List<PointOfInterest> points)
+    public  RouteHandler(Activity context, LatLng origin, List<PointOfInterest> points, GoogleMap mMap)
     {
         this.context = context;
+        this.mMap = mMap;
+
         mapQueue = Volley.newRequestQueue(context);
         for (PointOfInterest p : points)
         {
@@ -64,87 +70,99 @@ public class RouteHandler
                 poisLatLng.add(p.getLatLng());
             }
         }
-        String url = getUrl(origin);
+        List<String> urls = getUrls(origin);
         lines = new ArrayList<>();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-            try {
-                addMarker(origin, context.getString(R.string.Common_origin));
-                for (int i = 0; i < poisLatLng.size(); i++)
-                {
-                    addMarker(new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude), points.get(i).getTitle());
-                }
 
-                JSONArray jRoutes = response.getJSONArray("routes");
-                JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
-                JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
+        for (String url : urls) {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+                try {
+                    addMarker(origin, context.getString(R.string.Common_origin));
+                    for (int i = 0; i < poisLatLng.size(); i++)
+                    {
+                        addMarker(new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude), points.get(i).getTitle());
+                    }
 
-                JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
-                JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
+                    JSONArray jRoutes = response.getJSONArray("routes");
+                    JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
+                    JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
 
-                northLat = northEastObject.getDouble("lat");
-                northLng = northEastObject.getDouble("lng");
-                southLat = southWestObject.getDouble("lat");
-                southLng = southWestObject.getDouble("lng");
+                    JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
+                    JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
 
-                NavigateActivity.mMap.animateCamera(getCameraUpdate());
+                    northLat = northEastObject.getDouble("lat");
+                    northLng = northEastObject.getDouble("lng");
+                    southLat = southWestObject.getDouble("lat");
+                    southLng = southWestObject.getDouble("lng");
 
-                distance = Math.round(jLegs.getJSONObject(0).getJSONObject("distance").getInt("value") / 1000);
+                    //mMap.animateCamera(getCameraUpdate());
 
-                for (int i = 0; i < jRoutes.length(); i++) {
+                    distance = Math.round(jLegs.getJSONObject(0).getJSONObject("distance").getInt("value") / 1000);
+
+
                     for (int j = 0; j < jLegs.length(); j++) {
-                        for (int k = 0; k < jSteps.length(); k++) {
-                            JSONObject object = jSteps.getJSONObject(k);
+                        JSONArray step = jLegs.getJSONObject(j).getJSONArray("steps");
+                        for (int k = 0; k < step.length(); k++) {
+                            JSONObject object = step.getJSONObject(k);
                             String polyline = object.getJSONObject("polyline").getString("points");
                             List<LatLng> list = decodePoly(polyline);
                             lines.add(list);
                         }
                     }
+                        mMap.addPolyline(getPolylineOptions());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            }, onError);
 
-                NavigateActivity.mMap.addPolyline(getPolylineOptions());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, onError);
-
-        mapQueue.add(jsonObjectRequest);
-
+            mapQueue.add(jsonObjectRequest);
+        }
     }
 
+    
 
     //normal route https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood4&key=AIzaSyDlPMbvEikR40aphGhAQHBirTTPonIR5Ic
     //route with waypoints: https://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|Lexington,MA&key=YOUR_API_KEY
     //route with waypoints: https://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|via:Lexington,MA&key=YOUR_API_KEY
     //route with waypoints: https://maps.googleapis.com/maps/api/directions/json? origin=Boston,MA &destination=Concord,MA &waypoints=42.4614275,-71.0552091,MA |Lexington,MA&key=AIzaSyDlPMbvEikR40aphGhAQHBirTTPonIR5Ic
 
-    public String getUrl(LatLng origin)
+    public List<String> getUrls(LatLng origin)
     {
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude + ",MA";
+        List<String> urls = new ArrayList<>();
 
-        LatLng destinationLatLng = new LatLng(poisLatLng.get(poisLatLng.size()-1).latitude, poisLatLng.get(poisLatLng.size()-1).longitude);
-        String str_dest = "destination=" + destinationLatLng.latitude + "," + destinationLatLng.longitude + ",MA";
+        String waipointsString = "waypoints=";
 
         String trafficMode = "mode=walking";
-
-        String str_waypoints = "waypoints=";
-        str_waypoints += poisLatLng.get(0).latitude + "," + poisLatLng.get(0).longitude + ",MA";
-        for (int i = 1; i < poisLatLng.size()-1; i++)
-        {
-            str_waypoints += " |" +poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude + ", MA";
-        }
-
-        String parameters = str_origin + "&" + str_dest + "&" + str_waypoints + "&" + trafficMode;
-
         String output = "json";
 
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&" + Constants.API_KEY;
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude + ",MA";
 
-        return url;
+        for (int i = 0; i < poisLatLng.size(); i++) {
+            if(i % 7 == 0 && i != 0|| i == poisLatLng.size() -1){
+                if(i == poisLatLng.size()-1){
+                    waipointsString += poisLatLng.get(0).latitude + "," + poisLatLng.get(0).longitude + ",MA";
+                }
+
+                LatLng destinationLatLng = new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude);
+                String str_dest = "destination=" + destinationLatLng.latitude + "," + destinationLatLng.longitude + ",MA";
+                String parameters = str_origin + "&" + str_dest + "&" + waipointsString + "&" + trafficMode;
+                String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&" + Constants.API_KEY;
+                urls.add(url);
+                waipointsString = "waypoints=";
+
+            }else {
+                if(!waipointsString.equals("waypoints=")){
+                    waipointsString += " |";
+                }
+                waipointsString += poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude + ", MA";
+            }
+        }
+
+        return urls;
     }
 
     private void addMarker(LatLng origin, String title)
     {
-        NavigateActivity.mMap.addMarker(new MarkerOptions().position(origin).title(title));
+        mMap.addMarker(new MarkerOptions().position(origin).title(title));
     }
 
 
@@ -158,7 +176,7 @@ public class RouteHandler
     public PolylineOptions getPolylineOptions(){
         PolylineOptions polylineOptions = new PolylineOptions().width(3).color(Color.RED);
         for (List<LatLng> leg : lines) {
-            polylineOptions.addAll(leg);
+            polylineOptions = polylineOptions.addAll(leg);
         }
 
         return polylineOptions;

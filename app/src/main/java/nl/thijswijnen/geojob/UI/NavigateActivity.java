@@ -34,7 +34,8 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     private Location lastLocation = null;
     private LocationHandler locationHandler;
     private RouteHandler routeHandler;
-    public static GoogleMap mMap;
+
+    private GoogleMap mMap;
 
     private Route route;
 
@@ -59,7 +60,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         //getting Route from intent
         Bundle b = getIntent().getExtras();
         route = (Route) b.getSerializable("route");
-        callRouteHandler();
     }
 
     private void callRouteHandler()
@@ -68,7 +68,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         List<PointOfInterest> pointOfInterestList = route.getAllPointsOfInterest();
         if (routeHandler == null)
         {
-            routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList);
+            routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList,mMap);
         }else
         {
             mMap.addPolyline(routeHandler.getPolylineOptions());
@@ -130,6 +130,8 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
             mMap.addMarker(new MarkerOptions().position(currentLocationLatLng).title("Current location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));
         }
+
+        callRouteHandler();
     }
 
     @Override
