@@ -18,12 +18,17 @@ public class BlindWall extends PointOfInterest
     private String materialEn;
     private String materialNl;
 
-    public BlindWall(String title, String descriptionNL, String descriptionEN, LatLng location, String artist, String photographer, String materialEn, String materialNl) {
+    private String year;
+    private String location;
+
+    public BlindWall(String title, String descriptionNL, String descriptionEN, LatLng location, String artist, String photographer, String materialEn, String materialNl, String year, String locationS) {
         super(title, descriptionNL, descriptionEN, location);
         this.artist = artist;
         this.photographer = photographer;
         this.materialEn = materialEn;
         this.materialNl = materialNl;
+        this.year = year;
+        this.location = locationS;
     }
 
 
