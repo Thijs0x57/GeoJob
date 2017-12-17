@@ -77,7 +77,7 @@ public class PointOfInterestTest {
 
     @Test
     public void getLocation() throws Exception {
-        assertThat(wall.getLocation(),is(new LatLng(0,0)));
+        assertThat(wall.getLatLng(),is(new LatLng(0,0)));
     }
 
     @Test

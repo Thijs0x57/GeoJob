@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 
 public class Constants
 {
+    public static final String API_KEY = "AIzaSyDlPMbvEikR40aphGhAQHBirTTPonIR5Ic";
+
     public static final int PERMISSION_REQUEST_CODE = 698;
 
     public static final String PERMISSION_FINELOCATION_STRING = android.Manifest.permission.ACCESS_FINE_LOCATION;
