@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -204,7 +205,7 @@ public class RouteHandler
 
     private void addMarker(LatLng origin, String title)
     {
-        mMap.addMarker(new MarkerOptions().position(origin).title(title));
+        mMap.addMarker(new MarkerOptions().position(origin).title(title)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
     }
 
 

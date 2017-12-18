@@ -1,11 +1,15 @@
 package nl.thijswijnen.geojob.UI;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -43,10 +47,13 @@ public class DetailPoiActivity extends AppCompatActivity
             TextView materialTxt = findViewById(R.id.detailedPoi_Material_txtview);
             TextView photographerTxt = findViewById(R.id.detailedPoi_photographer_txtview);
             TextView yearTxt = findViewById(R.id.detailedPoi_year_txtview);
+            ImageButton videoStart = findViewById(R.id.detailed_videoButt);
 
             if (poi.getClass() == BlindWall.class) {
                 BlindWall BPoi = (BlindWall) poi;
                 locationTxt.setText(BPoi.getLocationS());
+
+                String url = BPoi.getAllVideos().get(0);
 
                 if (currentLocale.equals(new Locale("en"))) {
                     materialTxt.setText(BPoi.getMaterialEn());
@@ -56,18 +63,40 @@ public class DetailPoiActivity extends AppCompatActivity
                     description.setText(poi.getDescriptionNL());
                 }
 
+                if (url.length()>5){
+                    System.out.println(url);
+                    videoStart.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse(url));
+                                System.out.println("Boiy");
+                                startActivity(browserIntent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                System.out.println("Boiy Not Hot1");
+                            }
+                        }
+                    });
+                } else {
+                    videoStart.setImageResource(android.R.color.transparent);
+                }
+
                 photographerTxt.setText(BPoi.getPhotographer());
                 yearTxt.setText(BPoi.getYear());
 
             } else if (poi.getClass()==Monument.class) {
 
-                //turns off All BlindWall textviews
+                //turns off All BlindWall textviews and buttons
 
                 TextView locationFill = findViewById(R.id.detailPoi_locationFill_txtvw);
                 TextView materialFill = findViewById(R.id.textdetailPoi_materialFill_txtvwView4);
                 TextView photographerFill = findViewById(R.id.detailPoi_photographerFill_txtvw);
                 TextView yearFill = findViewById(R.id.detailPoi_yearFill_txtvw);
 
+                videoStart.setImageResource(android.R.color.transparent);
                 locationFill.setText("");
                 materialFill.setText("");
                 photographerFill.setText("");

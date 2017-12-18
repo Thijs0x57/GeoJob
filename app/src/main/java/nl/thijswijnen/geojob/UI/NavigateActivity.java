@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
@@ -17,7 +18,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 
@@ -51,6 +54,9 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigate);
+        //getting Route from intent
+        Bundle b = getIntent().getExtras();
+        route = (Route) b.getSerializable("route");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigate_map_map);
@@ -73,6 +79,25 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         });
 
 
+    }
+
+
+    //TODO: ROEP DEZE AAN ALS DE GEOLOCATIE GETRIGGERD WORDT
+    private void openPOI(Marker marker){
+
+        Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
+        PointOfInterest poi=null;
+        for(PointOfInterest p:route.getAllPointsOfInterest()){
+            if(p.getLocation().equals(marker.getPosition())){
+                if(!p.isVisited()){
+                    poi = p;
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                    poi.setVisited(true);
+                    i.putExtra("POI",poi);
+                }
+            }
+        }
+        startActivity(i);
     }
 
     private void callRouteHandler()
@@ -137,6 +162,21 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
 
         mMap.setMyLocationEnabled(true);
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            public void onInfoWindowClick(Marker marker) {
+                Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
+                PointOfInterest poi=null;
+                for(PointOfInterest p:route.getAllPointsOfInterest()){
+                    if(p.getTitle().equals(marker.getTitle())){
+                        poi = p;
+                    }
+                }
+                i.putExtra("POI",poi);
+                startActivity(i);
+            }
+        });
 
         Location lastLocation = locationHandler.getLocation();
         if (lastLocation != null)
