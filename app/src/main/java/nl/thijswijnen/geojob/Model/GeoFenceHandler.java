@@ -41,33 +41,23 @@ public class GeoFenceHandler
     public void addGeofenceToClient()
     {
         geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
-                .addOnSuccessListener((Executor) context, new OnSuccessListener<Void>()
-                {
-                    @Override
-                    public void onSuccess(Void aVoid)
-                    {
-                        // do things
-                    }
+                .addOnSuccessListener((Executor) context, aVoid -> {
+                    // do things
                 })
-                .addOnFailureListener((Executor) context, new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        //do things
-                    }
+                .addOnFailureListener((Executor) context, e -> {
+                    //do things
                 });
     }
 
     public void createGeoFence(LatLng geoLatLng)
-    {
-        geofenceList.add(new Geofence.Builder()
-        .setRequestId("?")
-        .setCircularRegion(geoLatLng.latitude, geoLatLng.longitude, Constants.GEOFENCE_RADIUS_IN_METERS)
-        .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-        .build());
-    }
+{
+    geofenceList.add(new Geofence.Builder()
+            .setRequestId("?")
+            .setCircularRegion(geoLatLng.latitude, geoLatLng.longitude, Constants.GEOFENCE_RADIUS_IN_METERS)
+            .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+            .build());
+}
 
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();

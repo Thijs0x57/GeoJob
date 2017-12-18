@@ -57,6 +57,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         //getting Route from intent
         Bundle b = getIntent().getExtras();
         route = (Route) b.getSerializable("route");
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigate_map_map);
@@ -69,16 +70,10 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         locationHandler = LocationHandler.getInstance(this);
         locationHandler.setShouldShareLocation(true);
 
-        //getting Route from intent
-        Bundle b = getIntent().getExtras();
-        route = (Route) b.getSerializable("route");
-
         Button backbutton = findViewById(R.id.navigate_pauzeplay_btn);
         backbutton.setOnClickListener(view -> {
            finish();
         });
-
-
     }
 
 
@@ -102,49 +97,66 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
     private void callRouteHandler()
     {
-        Location currentLoc = getCurrentLocation();
-        List<PointOfInterest> pointOfInterestList = route.getAllPointsOfInterest();
-        if (routeHandler == null)
-        {
-            routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList,mMap,route);
-        }else
-        {
-            mMap.animateCamera(routeHandler.getCameraUpdate());
-        }
+        new Thread(() ->{
+            LocationHandler handler = LocationHandler.getInstance(this);
+            while (handler.getLocation() == null){
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Location currentLoc = handler.getLocation();
+            List<PointOfInterest> pointOfInterestList = route.getAllPointsOfInterest();
+            if (routeHandler == null)
+            {
+                routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList,mMap,route);
+            }else
+            {
+                mMap.animateCamera(routeHandler.getCameraUpdate());
+            }
+
+
+            new Thread(() ->{
+                final boolean[] onePointHasBeenFound = {false};
+
+                while (true){
+
+
+                    if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
+                        if(!onePointHasBeenFound[0]){
+                            prevLine = routeHandler.getPolylinesMap().get(0);
+                        }
+
+                        if(handler.getLocation() != null){
+                            runOnUiThread(() -> {
+                                float distance = distance(prevLine.getPoints().get(1).latitude,prevLine.getPoints().get(1).longitude,handler.getLocation().getLatitude(),handler.getLocation().getLongitude());
+                                if(distance < 10){
+                                    prevLine.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
+                                    int index = routeHandler.getPolylinesMap().indexOf(prevLine);
+                                    if(index < routeHandler.getPolylinesMap().size()){
+                                        prevLine = routeHandler.getPolylinesMap().get(index + 1);
+                                    }
+                                    onePointHasBeenFound[0] = true;
+                                }
+                            });
+                        }
+                    }
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }).start();
+
+
     }
 
-    public Location getCurrentLocation() {
-        Location currentLocation = getLastKnownLocation();
-        if (currentLocation == null)
-        {
-            Toast noGPSToast = Toast.makeText(getApplicationContext(),"NO GPS SIGNAL", Toast.LENGTH_LONG);
-            noGPSToast.show();
-        }
-        return currentLocation;
-    }
 
-    private Location getLastKnownLocation() {
-        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
-        List<String> providers = locationManager.getProviders(true);
-        Location bestLocation = null;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, Constants.PERMISSION_REQUEST_CODE);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, Constants.PERMISSION_REQUEST_CODE);
-        }
-        for (String provider : providers) {
-            Location l = locationManager.getLastKnownLocation(provider);
-            if (l == null) {
-                continue;
-            }
-            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                // Found best last known location: %s", l);
-                bestLocation = l;
-            }
-        }
-        return bestLocation;
-    }
 
     /**
      * Manipulates the map once available.
@@ -187,39 +199,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         callRouteHandler();
-        new Thread(() ->{
-            final boolean[] onePointHasBeenFound = {false};
-
-            while (true){
-                if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
-                    if(!onePointHasBeenFound[0]){
-                        prevLine = routeHandler.getPolylinesMap().get(0);
-                    }
-                    LocationHandler handler = LocationHandler.getInstance(this);
-                    if(handler.getLocation() != null){
-                        runOnUiThread(() -> {
-                            float distance = distance(prevLine.getPoints().get(1).latitude,prevLine.getPoints().get(1).longitude,handler.getLocation().getLatitude(),handler.getLocation().getLongitude());
-                            if(distance < 10){
-                                prevLine.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
-                                int index = routeHandler.getPolylinesMap().indexOf(prevLine);
-                                if(index < routeHandler.getPolylinesMap().size()){
-                                    prevLine = routeHandler.getPolylinesMap().get(index + 1);
-                                }
-                                onePointHasBeenFound[0] = true;
-                            }
-                        });
-                    }
-
-
-                }
-
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 
 
