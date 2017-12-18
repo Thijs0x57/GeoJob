@@ -1,8 +1,11 @@
 package nl.thijswijnen.geojob.UI;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +34,7 @@ public class WelcomeActivity extends AppCompatActivity
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,6 +47,8 @@ public class WelcomeActivity extends AppCompatActivity
         preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
+        checkPermissions();
+
         //check if we need to display languageActivity
         /*
         if (!preferences.getBoolean(FIRST_STARTUP,false))
@@ -53,15 +59,6 @@ public class WelcomeActivity extends AppCompatActivity
         }
         */
         //LanguageActivity.setLocale(this,preferences.getString("language", null));
-
-        if (ContextCompat.checkSelfPermission(this, Constants.PERMISSION_FINELOCATION_STRING)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Constants.PERMISSION_FINELOCATION_STRING}, Constants.PERMISSION_REQUEST_CODE);
-        }
-        if (ContextCompat.checkSelfPermission(this, Constants.PERMISSION_COARSELOCATION_STRING)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Constants.PERMISSION_COARSELOCATION_STRING}, Constants.PERMISSION_REQUEST_CODE);
-        }
 
         ImageView HulpButton = findViewById(R.id.welcome_imgHulp);
         HulpButton.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +91,11 @@ public class WelcomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Intent routeKiezenIntent = new Intent(getApplicationContext(), ChooseRouteActivity.class);
-                startActivity(routeKiezenIntent);
+                if(checkPermissions())
+                {
+                    Intent routeKiezenIntent = new Intent(getApplicationContext(), ChooseRouteActivity.class);
+                    startActivity(routeKiezenIntent);
+                }
             }
         });
 
@@ -110,5 +110,24 @@ public class WelcomeActivity extends AppCompatActivity
                 finish();
             }
         });
+    }
+
+    private boolean checkPermissions()
+    {
+        boolean granted = true;
+
+        if (ContextCompat.checkSelfPermission(this, Constants.PERMISSION_FINELOCATION_STRING) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Constants.PERMISSION_FINELOCATION_STRING}, Constants.PERMISSION_REQUEST_CODE);
+            granted = false;
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Constants.PERMISSION_COARSELOCATION_STRING) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[] {Constants.PERMISSION_COARSELOCATION_STRING}, Constants.PERMISSION_REQUEST_CODE);
+            granted = false;
+        }
+        System.out.println(granted);
+        return granted;
     }
 }
