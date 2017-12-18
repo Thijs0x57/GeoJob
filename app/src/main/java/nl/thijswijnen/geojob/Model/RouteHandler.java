@@ -2,9 +2,7 @@ package nl.thijswijnen.geojob.Model;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.graphics.Color;
-import android.os.Parcel;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -20,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONArray;
@@ -27,11 +26,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import nl.thijswijnen.geojob.R;
-import nl.thijswijnen.geojob.UI.NavigateActivity;
 import nl.thijswijnen.geojob.Util.Constants;
 
 /**
@@ -56,6 +57,8 @@ public class RouteHandler
 
     public static RequestQueue mapQueue;
 
+    private Map<Integer,List<Polyline>> polylinesMap;
+
 
     public  RouteHandler(Activity context, LatLng origin, List<PointOfInterest> points, GoogleMap mMap, Route route)
     {
@@ -77,66 +80,79 @@ public class RouteHandler
         }
         List<String> urls = getUrls(origin);
         lines = new ArrayList<>();
+        polylinesMap = new HashMap<>();
 
-        for (String url : urls) {
+        for (int i = 0; i < urls.size(); i ++) {
+            String url = urls.get(i);
+            int finalI = i;
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-                try {
-                    addMarker(origin, context.getString(R.string.Common_origin));
-                    for (int i = 0; i < poisLatLng.size(); i++)
-                    {
-                        if(route instanceof HistorischeKilometer){
-                            for (PointOfInterest p : route.getHKPointsOfInterests()) {
-                                if(p.getLocation().equals(poisLatLng.get(i))){
-                                    addMarker(new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude), points.get(i).getTitle());
+                synchronized (lines){
+                    try {
+                        addMarker(origin, context.getString(R.string.Common_origin));
+                        for (int j = 0; j < poisLatLng.size(); j++)
+                        {
+                            if(route instanceof HistorischeKilometer){
+                                for (PointOfInterest p : route.getHKPointsOfInterests()) {
+                                    if(p.getLocation().equals(poisLatLng.get(j))){
+                                        addMarker(new LatLng(poisLatLng.get(j).latitude, poisLatLng.get(j).longitude), points.get(j).getTitle());
+                                    }
                                 }
-                            }
-                        }else addMarker(new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude), points.get(i).getTitle());
-                    }
-
-                    JSONArray jRoutes = response.getJSONArray("routes");
-                    JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
-                    JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
-
-                    JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
-                    JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
-
-                    double norhteastOblat = northEastObject.getDouble("lat");
-                    if(norhteastOblat > northLat){
-                        northLat = norhteastOblat;
-                    }
-
-                    double northeastOblng = northEastObject.getDouble("lng");
-                    if(northeastOblng > northLng){
-                        northLng = northeastOblng;
-                    }
-
-                    double southwestOblat = southWestObject.getDouble("lat");
-                    if(southwestOblat < southLat){
-                        southLat = southwestOblat;
-                    }
-
-                    double southwestOblng = southWestObject.getDouble("lng");
-                    if(southwestOblng < southLng){
-                        southLng = southwestOblng;
-                    }
-
-                    mMap.animateCamera(getCameraUpdate());
-
-                    distance = Math.round(jLegs.getJSONObject(0).getJSONObject("distance").getInt("value") / 1000);
-
-
-                    for (int j = 0; j < jLegs.length(); j++) {
-                        JSONArray step = jLegs.getJSONObject(j).getJSONArray("steps");
-                        for (int k = 0; k < step.length(); k++) {
-                            JSONObject object = step.getJSONObject(k);
-                            String polyline = object.getJSONObject("polyline").getString("points");
-                            List<LatLng> list = decodePoly(polyline);
-                            lines.add(list);
+                            }else addMarker(new LatLng(poisLatLng.get(j).latitude, poisLatLng.get(j).longitude), points.get(j).getTitle());
                         }
+
+                        JSONArray jRoutes = response.getJSONArray("routes");
+                        JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
+                        JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
+
+                        JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
+                        JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
+
+                        double norhteastOblat = northEastObject.getDouble("lat");
+                        if(norhteastOblat > northLat){
+                            northLat = norhteastOblat;
+                        }
+
+                        double northeastOblng = northEastObject.getDouble("lng");
+                        if(northeastOblng > northLng){
+                            northLng = northeastOblng;
+                        }
+
+                        double southwestOblat = southWestObject.getDouble("lat");
+                        if(southwestOblat < southLat){
+                            southLat = southwestOblat;
+                        }
+
+                        double southwestOblng = southWestObject.getDouble("lng");
+                        if(southwestOblng < southLng){
+                            southLng = southwestOblng;
+                        }
+
+                        mMap.animateCamera(getCameraUpdate());
+
+                        distance = Math.round(jLegs.getJSONObject(0).getJSONObject("distance").getInt("value") / 1000);
+
+
+                        for (int j = 0; j < jLegs.length(); j++) {
+                            JSONArray step = jLegs.getJSONObject(j).getJSONArray("steps");
+                            for (int k = 0; k < step.length(); k++) {
+                                JSONObject object = step.getJSONObject(k);
+                                String polyline = object.getJSONObject("polyline").getString("points");
+                                List<LatLng> list = decodePoly(polyline);
+                                lines.add(list);
+                            }
+                        }
+                        List<Polyline> polylines = new ArrayList<>();
+                        for (PolylineOptions polylineOptions : getPolylineOptions()) {
+                            Polyline p = mMap.addPolyline(polylineOptions);
+                            polylines.add(p);
+                        }
+                        synchronized (polylines){
+                            polylinesMap.put(finalI,polylines);
+                        }
+                        lines.clear();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                        mMap.addPolyline(getPolylineOptions());
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }, onError);
 
@@ -199,10 +215,19 @@ public class RouteHandler
         return CameraUpdateFactory.newLatLngBounds(bounds, 80);
     }
 
-    public PolylineOptions getPolylineOptions(){
-        PolylineOptions polylineOptions = new PolylineOptions().width(10).color(Color.RED);
-        for (List<LatLng> leg : lines) {
-            polylineOptions = polylineOptions.addAll(leg);
+    public List<PolylineOptions> getPolylineOptions(){
+        List<PolylineOptions> polylineOptions = new ArrayList<>();
+        LatLng prevPosition = null;
+
+        for (List<LatLng> line : lines) {
+            for (LatLng latLng : line) {
+                if(prevPosition == null){
+                    prevPosition = latLng;
+                }else {
+                    polylineOptions.add(new PolylineOptions().width(10).color(Color.GREEN).add(prevPosition).add(latLng));
+                    prevPosition = latLng;
+                }
+            }
         }
 
         return polylineOptions;
@@ -254,4 +279,14 @@ public class RouteHandler
         dialog.show();
         Log.d("Connection failed: ", error.toString());
     };
+
+    public List<Polyline> getPolylinesMap() {
+        List<Polyline> lines = new ArrayList<>();
+        List<Integer> keys = new ArrayList<>(polylinesMap.keySet());
+        Collections.sort(keys);
+        for (Integer integer : keys) {
+            lines.addAll(polylinesMap.get(integer));
+        }
+        return lines;
+    }
 }

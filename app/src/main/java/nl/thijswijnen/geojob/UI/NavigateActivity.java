@@ -1,6 +1,7 @@
 package nl.thijswijnen.geojob.UI;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -8,12 +9,10 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,6 +44,8 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
     private Route route;
 
+    private Polyline prevLine;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -71,7 +72,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
            finish();
         });
 
-        
+
     }
 
     private void callRouteHandler()
@@ -83,7 +84,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
             routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList,mMap,route);
         }else
         {
-            Polyline line = mMap.addPolyline(routeHandler.getPolylineOptions());
             mMap.animateCamera(routeHandler.getCameraUpdate());
         }
     }
@@ -130,10 +130,13 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
+
+        mMap.setMyLocationEnabled(true);
 
         Location lastLocation = locationHandler.getLocation();
         if (lastLocation != null)
@@ -144,5 +147,55 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         callRouteHandler();
+        new Thread(() ->{
+            final boolean[] onePointHasBeenFound = {false};
+
+            while (true){
+                if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
+                    if(!onePointHasBeenFound[0]){
+                        prevLine = routeHandler.getPolylinesMap().get(0);
+                    }
+                    LocationHandler handler = LocationHandler.getInstance(this);
+                    if(handler.getLocation() != null){
+                        runOnUiThread(() -> {
+                            float distance = distance(prevLine.getPoints().get(1).latitude,prevLine.getPoints().get(1).longitude,handler.getLocation().getLatitude(),handler.getLocation().getLongitude());
+                            if(distance < 10){
+                                prevLine.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
+                                int index = routeHandler.getPolylinesMap().indexOf(prevLine);
+                                if(index < routeHandler.getPolylinesMap().size()){
+                                    prevLine = routeHandler.getPolylinesMap().get(index + 1);
+                                }
+                                onePointHasBeenFound[0] = true;
+                            }
+                        });
+                    }
+
+
+                }
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    public float distance (double lat_a, double lng_a, double lat_b, double lng_b )
+    {
+        double earthRadius = 3958.75;
+        double latDiff = Math.toRadians(lat_b-lat_a);
+        double lngDiff = Math.toRadians(lng_b-lng_a);
+        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+                Math.cos(Math.toRadians(lat_a)) * Math.cos(Math.toRadians(lat_b)) *
+                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double distance = earthRadius * c;
+
+        int meterConversion = 1609;
+
+        return new Float(distance * meterConversion).floatValue();
     }
 }
