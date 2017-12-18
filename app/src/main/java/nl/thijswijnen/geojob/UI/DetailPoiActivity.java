@@ -30,9 +30,9 @@ public class DetailPoiActivity extends AppCompatActivity
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         Bundle b = getIntent().getExtras();
-        if (b.getSerializable("poi") != null)
+        if (b.getSerializable("POI") != null)
         {
-            PointOfInterest poi = (PointOfInterest) b.getSerializable("poi");
+            PointOfInterest poi = (PointOfInterest) b.getSerializable("POI");
             TextView title = findViewById(R.id.detailPoi_title_txtvw);
             title.setText(poi.getTitle());
 

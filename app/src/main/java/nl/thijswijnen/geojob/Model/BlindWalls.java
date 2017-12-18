@@ -53,7 +53,11 @@ public class BlindWalls extends Route implements Serializable
                 String materialEN = material.getString("en");
                 String materialNL = material.getString("nl");
 
-                BlindWall blindWall = new BlindWall(title,descriptionNL,descriptionEN,location,artist,photographer,materialEN,materialNL);
+                String year = wall.getString("year");
+
+                String locationS = wall.getString("address");
+
+                BlindWall blindWall = new BlindWall(title,descriptionNL,descriptionEN,location,artist,photographer,materialEN,materialNL,year,locationS);
 
                 JSONArray images = wall.getJSONArray("images");
                 for (int j = 0; j < images.length(); j++) {

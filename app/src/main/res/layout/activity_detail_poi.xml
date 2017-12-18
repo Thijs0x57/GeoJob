@@ -41,25 +41,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_detailed_viewpages_images_id"/>
 
-    <TextView
-        android:id="@+id/detailPoi_info_txtvw"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="[info]Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailPoi_title_txtvw"/>
+
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.60"/>
+        app:layout_constraintGuide_percent="0.7" />
 
     <ScrollView
         android:id="@+id/detailPoi_scrollView"
@@ -87,7 +76,104 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/detailed_scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="@+id/detailPoi_background_imgvw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailPoi_title_txtvw">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/detailPoi_info_txtvw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/Location_word" />
+
+            <TextView
+                android:id="@+id/detailedPoi_Location_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toEndOf="@+id/detailPoi_info_txtvw"
+                app:layout_constraintTop_toTopOf="@+id/detailPoi_info_txtvw" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/Photographer_word"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/textView6"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/Material_word"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/detailPoi_info_txtvw"
+                app:layout_constraintTop_toBottomOf="@+id/detailPoi_info_txtvw" />
+
+            <TextView
+                android:id="@+id/detailedPoi_Material_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/detailedPoi_Location_txtview"
+                app:layout_constraintTop_toBottomOf="@+id/detailedPoi_Location_txtview" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/Year_word"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <TextView
+                android:id="@+id/detailedPoi_year_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/detailedPoi_Material_txtview"
+                app:layout_constraintTop_toBottomOf="@+id/detailedPoi_Material_txtview" />
+
+            <TextView
+                android:id="@+id/detailedPoi_photographer_txtview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/detailedPoi_year_txtview"
+                app:layout_constraintTop_toBottomOf="@+id/detailedPoi_year_txtview" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

@@ -19,6 +19,7 @@ public abstract class PointOfInterest implements Serializable
     private String descriptionEN;
     private List<String> allImages;
     private List<String> allVideos;
+
     private double latitude;
     private double longitude;
     private boolean visited;

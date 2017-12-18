@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,15 +19,13 @@ import nl.thijswijnen.geojob.Model.PointOfInterest;
 import nl.thijswijnen.geojob.Model.Route;
 import nl.thijswijnen.geojob.R;
 
-public class DetailRouteActivity extends AppCompatActivity
-{
+public class DetailRouteActivity extends AppCompatActivity {
 
     private Route route;
     RecyclerView pois;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_route);
 
@@ -44,35 +43,35 @@ public class DetailRouteActivity extends AppCompatActivity
 
         TextView description = findViewById(R.id.activity_detail_route_description);
         Locale current = getResources().getConfiguration().locale;
-        if(current.equals(new Locale("en"))){
+        if (current.equals(new Locale("en"))) {
             description.setText(r.getDescriptionEN());
-        }else if(current.equals(new Locale("nl"))){
+        } else if (current.equals(new Locale("nl"))) {
             description.setText(r.getDescriptionNL());
         }
-
 
 
         final int speedScroll = 500;
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             int count = 0;
+
             @Override
             public void run() {
-                if(count < poisList.size()){
+                if (count < poisList.size()) {
                     pois.scrollToPosition(++count);
-                    handler.postDelayed(this,speedScroll);
+                    handler.postDelayed(this, speedScroll);
                 }
 
 
             }
         };
 
-        handler.postDelayed(runnable,speedScroll);
+        handler.postDelayed(runnable, speedScroll);
 
         Button startRoute = findViewById(R.id.activity_detail_route_start_button);
         startRoute.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(),NavigateActivity.class);
-            intent.putExtra("route",r);
+            Intent intent = new Intent(getApplicationContext(), NavigateActivity.class);
+            intent.putExtra("route", r);
             startActivity(intent);
             finish();
         });
