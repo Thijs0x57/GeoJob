@@ -1,6 +1,7 @@
 package nl.thijswijnen.geojob.UI;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +43,9 @@ public class DetailRouteActivity extends AppCompatActivity {
 
         TextView title = findViewById(R.id.activity_detail_route_title);
         title.setText(route.getRouteTitle());
+
+        TextView descriptionTitle = findViewById(R.id.PointsDescriptionBoxTitle);
+        descriptionTitle.setTextColor(Color.BLACK);
 
         pois = findViewById(R.id.activity_detail_route_pinpoints_recycleview);
         pois.setLayoutManager(new LinearLayoutManager(this));
