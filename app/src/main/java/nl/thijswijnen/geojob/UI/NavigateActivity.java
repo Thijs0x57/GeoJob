@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -66,6 +67,25 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         locationHandler.setShouldShareLocation(true);
 
 
+    }
+
+
+    //TODO: ROEP DEZE AAN ALS DE GEOLOCATIE GETRIGGERD WORDT
+    private void openPOI(Marker marker){
+
+        Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
+        PointOfInterest poi=null;
+        for(PointOfInterest p:route.getAllPointsOfInterest()){
+            if(p.getTitle().equals(marker.getTitle())){
+                if(!p.isVisited()){
+                    poi = p;
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    poi.setVisited(true);
+                    i.putExtra("POI",poi);
+                    startActivity(i);
+                }
+            }
+        }
     }
 
     private void callRouteHandler()
