@@ -76,16 +76,16 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
         PointOfInterest poi=null;
         for(PointOfInterest p:route.getAllPointsOfInterest()){
-            if(p.getTitle().equals(marker.getTitle())){
+            if(p.getLocation().equals(marker.getPosition())){
                 if(!p.isVisited()){
                     poi = p;
-                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                     poi.setVisited(true);
                     i.putExtra("POI",poi);
-                    startActivity(i);
                 }
             }
         }
+        startActivity(i);
     }
 
     private void callRouteHandler()
@@ -152,16 +152,16 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             public void onInfoWindowClick(Marker marker) {
-                Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
-                PointOfInterest poi=null;
-                for(PointOfInterest p:route.getAllPointsOfInterest()){
-                    if(p.getTitle().equals(marker.getTitle())){
-                        poi = p;
-                    }
-                }
-                i.putExtra("POI",poi);
-                startActivity(i);
-
+//                Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
+//                PointOfInterest poi=null;
+//                for(PointOfInterest p:route.getAllPointsOfInterest()){
+//                    if(p.getTitle().equals(marker.getTitle())){
+//                        poi = p;
+//                    }
+//                }
+//                i.putExtra("POI",poi);
+//                startActivity(i);
+                openPOI(marker);
             }
         });
 
