@@ -113,6 +113,7 @@ public class BlindWalls extends Route implements Serializable
                             List<PointOfInterest> bwpois = bw.getAllPointsOfInterest();
                             bwpois.add(b.getAllPointsOfInterest().get(i1));
                             bw.setAllPointOfInterests(bwpois);
+                            bw.setHKPointsOfInterests(bwpois);
                         }
                     }
                 }

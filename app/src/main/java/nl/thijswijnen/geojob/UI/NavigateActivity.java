@@ -2,7 +2,10 @@ package nl.thijswijnen.geojob.UI;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.location.Location;
@@ -10,6 +13,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -26,6 +30,8 @@ import com.google.android.gms.maps.model.Polyline;
 
 import java.util.List;
 
+import nl.thijswijnen.geojob.Model.GeoFenceHandler;
+import nl.thijswijnen.geojob.Model.HistorischeKilometer;
 import nl.thijswijnen.geojob.Model.LocationHandler;
 import nl.thijswijnen.geojob.Model.PointOfInterest;
 import nl.thijswijnen.geojob.Model.Route;
@@ -36,9 +42,6 @@ import nl.thijswijnen.geojob.Util.Constants;
 public class NavigateActivity extends FragmentActivity implements OnMapReadyCallback {
 
 
-    final String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
-    private LocationManager locationManager;
-    private Location lastLocation = null;
     private LocationHandler locationHandler;
     private RouteHandler routeHandler;
 
@@ -47,6 +50,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     private Route route;
 
     private Polyline prevLine;
+    private GeoFenceHandler geoFenceHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,13 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         locationHandler = LocationHandler.getInstance(this);
         locationHandler.setShouldShareLocation(true);
 
+        geoFenceHandler = new GeoFenceHandler(this);
+
+        for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
+            geoFenceHandler.createGeoFence(pointOfInterest.getLocation());
+        }
+        geoFenceHandler.addGeofenceToClient();
+
         Button backbutton = findViewById(R.id.navigate_pauzeplay_btn);
         backbutton.setOnClickListener(view -> {
            finish();
@@ -75,22 +86,35 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-    //TODO: ROEP DEZE AAN ALS DE GEOLOCATIE GETRIGGERD WORDT
-    private void openPOI(Marker marker) {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("NavigateActivity","geofencingReceiver has been unregisterd");
+    }
 
-        PointOfInterest poi = null;
-        for (PointOfInterest p : route.getAllPointsOfInterest()) {
-            if (p.getLocation().equals(marker.getPosition())) {
-                if (!p.isVisited()) {
-                    Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
-                    poi = p;
-                    poi.setVisited(true);
-                    routeHandler.updateMarker(p.getLocation(), p.getTitle());
-                    marker.remove();
-                    i.putExtra("POI", poi);
-                    startActivity(i);
-                }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("NavigateActivity","geofencingReceiver has been registerd");
+    }
+
+    //TODO: ROEP DEZE AAN ALS DE GEOLOCATIE GETRIGGERD WORDT
+    private void openPOI(PointOfInterest p) {
+        if (!p.isVisited()) {
+            Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
+            p.setVisited(true);
+            for (Marker marker : routeHandler.getMarkers()) {
+
+                runOnUiThread(() -> {
+                    if(marker.getPosition().equals(p.getLocation())){
+                        marker.remove();
+                    }
+                });
             }
+            routeHandler.updateMarker(p.getLocation(), p.getTitle());
+            i.putExtra("POI", p);
+            startActivity(i);
+            Log.d("NavigateActiviy","open poi");
         }
     }
 
@@ -106,22 +130,28 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }
 
-            Location currentLoc = handler.getLocation();
+            final Location[] currentLoc = {handler.getLocation()};
             List<PointOfInterest> pointOfInterestList = route.getAllPointsOfInterest();
             if (routeHandler == null)
             {
-                routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList,mMap,route);
+                routeHandler = new RouteHandler(this, new LatLng(currentLoc[0].getLatitude(), currentLoc[0].getLongitude()), pointOfInterestList,mMap,route);
             }else
             {
                 mMap.animateCamera(routeHandler.getCameraUpdate());
             }
-
-
+            
             new Thread(() ->{
                 final boolean[] onePointHasBeenFound = {false};
 
                 while (true){
-
+                    currentLoc[0] = handler.getLocation();
+                    for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
+                        float distance = distance(pointOfInterest.getLocation().latitude,pointOfInterest.getLocation().longitude,
+                                currentLoc[0].getLatitude(), currentLoc[0].getLongitude());
+                        if(distance < 5){
+                            openPOI(pointOfInterest);
+                        }
+                    }
 
                     if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
                         if(!onePointHasBeenFound[0]){
@@ -151,10 +181,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }).start();
         }).start();
-
-
     }
-
 
 
     /**
@@ -188,14 +215,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                 startActivity(i);
             }
         });
-
-
-        Location lastLocation = locationHandler.getLocation();
-        if (lastLocation != null) {
-            LatLng currentLocationLatLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(currentLocationLatLng).title("Current location"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));
-        }
 
         callRouteHandler();
     }

@@ -1,10 +1,12 @@
 package nl.thijswijnen.geojob.Model;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
@@ -14,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -27,26 +30,33 @@ import nl.thijswijnen.geojob.Util.Constants;
 public class GeoFenceHandler
 {
     private GeofencingClient geofencingClient;
-    private Context context;
+    private Activity context;
     private List<Geofence> geofenceList;
     private PendingIntent geofencePendingIntent;
 
-    public GeoFenceHandler(Context context)
+    public GeoFenceHandler(Activity context)
     {
         this.context = context;
         geofencingClient = LocationServices.getGeofencingClient(context);
+        geofenceList = new ArrayList<>();
     }
 
     @SuppressLint("MissingPermission")
     public void addGeofenceToClient()
     {
         geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
-                .addOnSuccessListener((Executor) context, aVoid -> {
-                    // do things
-                })
-                .addOnFailureListener((Executor) context, e -> {
-                    //do things
-                });
+        .addOnSuccessListener(context, new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("GeofenceHandler","succesfully added geofences");
+            }
+        }).addOnFailureListener(context, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("GeofenceHandler",e.getMessage());
+            }
+        });
+        Log.d("GeoFenceHandler","gefencens have been added to the client");
     }
 
     public void createGeoFence(LatLng geoLatLng)
@@ -54,7 +64,7 @@ public class GeoFenceHandler
     geofenceList.add(new Geofence.Builder()
             .setRequestId("?")
             .setCircularRegion(geoLatLng.latitude, geoLatLng.longitude, Constants.GEOFENCE_RADIUS_IN_METERS)
-            .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+            .setExpirationDuration(Geofence.NEVER_EXPIRE)
             .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
             .build());
 }
@@ -72,7 +82,7 @@ public class GeoFenceHandler
         {
             return geofencePendingIntent;
         }
-        Intent intent = new Intent(context, DetailPoiActivity.class);
+        Intent intent = new Intent(context, GeoFencingService.class);
         geofencePendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return geofencePendingIntent;
     }

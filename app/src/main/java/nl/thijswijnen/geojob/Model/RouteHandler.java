@@ -18,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -49,6 +50,8 @@ public class RouteHandler
     List<LatLng> poisLatLng = new LinkedList<LatLng>();
     private double distance = 0;
 
+    private List<Marker> markers;
+
     private double northLat;
     private double northLng;
     private double southLat;
@@ -65,6 +68,8 @@ public class RouteHandler
     {
         this.context = context;
         this.mMap = mMap;
+
+        markers = new ArrayList<>();
 
         northLat = Integer.MIN_VALUE;
         southLat = Integer.MAX_VALUE;
@@ -204,11 +209,13 @@ public class RouteHandler
 
     private void addMarker(LatLng origin, String title)
     {
-        mMap.addMarker(new MarkerOptions().position(origin).title(title));
+        context.runOnUiThread(() -> {
+            markers.add(mMap.addMarker(new MarkerOptions().position(origin).title(title)));
+        });
     }
 
     public void updateMarker(LatLng origin, String title){
-        mMap.addMarker(new MarkerOptions().position(origin).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        context.runOnUiThread(() -> markers.add(mMap.addMarker(new MarkerOptions().position(origin).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))));
     }
 
 
@@ -292,5 +299,9 @@ public class RouteHandler
             lines.addAll(polylinesMap.get(integer));
         }
         return lines;
+    }
+
+    public List<Marker> getMarkers() {
+        return markers;
     }
 }
