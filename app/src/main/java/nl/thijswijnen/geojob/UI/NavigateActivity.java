@@ -8,6 +8,8 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -63,6 +65,13 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         //getting Route from intent
         Bundle b = getIntent().getExtras();
         route = (Route) b.getSerializable("route");
+
+        Button backbutton = findViewById(R.id.navigate_pauzeplay_btn);
+        backbutton.setOnClickListener(view -> {
+           finish();
+        });
+
+        
     }
 
     private void callRouteHandler()
