@@ -71,7 +71,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         List<PointOfInterest> pointOfInterestList = route.getAllPointsOfInterest();
         if (routeHandler == null)
         {
-            routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList,mMap);
+            routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList,mMap,route);
         }else
         {
             Polyline line = mMap.addPolyline(routeHandler.getPolylineOptions());

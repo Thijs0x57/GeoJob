@@ -57,7 +57,7 @@ public class RouteHandler
     public static RequestQueue mapQueue;
 
 
-    public  RouteHandler(Activity context, LatLng origin, List<PointOfInterest> points, GoogleMap mMap)
+    public  RouteHandler(Activity context, LatLng origin, List<PointOfInterest> points, GoogleMap mMap, Route route)
     {
         this.context = context;
         this.mMap = mMap;
@@ -84,7 +84,13 @@ public class RouteHandler
                     addMarker(origin, context.getString(R.string.Common_origin));
                     for (int i = 0; i < poisLatLng.size(); i++)
                     {
-                        addMarker(new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude), points.get(i).getTitle());
+                        if(route instanceof HistorischeKilometer){
+                            for (PointOfInterest p : route.getHKPointsOfInterests()) {
+                                if(p.getLocation().equals(poisLatLng.get(i))){
+                                    addMarker(new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude), points.get(i).getTitle());
+                                }
+                            }
+                        }else addMarker(new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude), points.get(i).getTitle());
                     }
 
                     JSONArray jRoutes = response.getJSONArray("routes");
