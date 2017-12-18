@@ -33,8 +33,7 @@ import nl.thijswijnen.geojob.Model.RouteHandler;
 import nl.thijswijnen.geojob.R;
 import nl.thijswijnen.geojob.Util.Constants;
 
-public class NavigateActivity extends FragmentActivity implements OnMapReadyCallback
-{
+public class NavigateActivity extends FragmentActivity implements OnMapReadyCallback {
 
 
     final String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
@@ -50,8 +49,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     private Polyline prevLine;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigate);
         //getting Route from intent
@@ -78,21 +76,22 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
 
     //TODO: ROEP DEZE AAN ALS DE GEOLOCATIE GETRIGGERD WORDT
-    private void openPOI(Marker marker){
+    private void openPOI(Marker marker) {
 
-        Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
-        PointOfInterest poi=null;
-        for(PointOfInterest p:route.getAllPointsOfInterest()){
-            if(p.getLocation().equals(marker.getPosition())){
-                if(!p.isVisited()){
+        PointOfInterest poi = null;
+        for (PointOfInterest p : route.getAllPointsOfInterest()) {
+            if (p.getLocation().equals(marker.getPosition())) {
+                if (!p.isVisited()) {
+                    Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
                     poi = p;
-                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                     poi.setVisited(true);
-                    i.putExtra("POI",poi);
+                    routeHandler.updateMarker(p.getLocation(), p.getTitle());
+                    marker.remove();
+                    i.putExtra("POI", poi);
+                    startActivity(i);
                 }
             }
         }
-        startActivity(i);
     }
 
     private void callRouteHandler()
@@ -169,30 +168,30 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
      */
     @SuppressLint("MissingPermission")
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         mMap.setMyLocationEnabled(true);
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
+            @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
                 PointOfInterest poi=null;
-                for(PointOfInterest p:route.getAllPointsOfInterest()){
-                    if(p.getTitle().equals(marker.getTitle())){
+                for(PointOfInterest p:route.getAllPointsOfInterest()) {
+                    if (p.getLocation().equals(marker.getPosition())) {
                         poi = p;
                     }
                 }
                 i.putExtra("POI",poi);
+                marker.hideInfoWindow();
                 startActivity(i);
             }
         });
 
+
         Location lastLocation = locationHandler.getLocation();
-        if (lastLocation != null)
-        {
+        if (lastLocation != null) {
             LatLng currentLocationLatLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
             mMap.addMarker(new MarkerOptions().position(currentLocationLatLng).title("Current location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocationLatLng));

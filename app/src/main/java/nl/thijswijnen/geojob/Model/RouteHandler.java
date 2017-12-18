@@ -199,13 +199,16 @@ public class RouteHandler
                 waipointsString += poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude;
             }
         }
-
         return urls;
     }
 
     private void addMarker(LatLng origin, String title)
     {
-        mMap.addMarker(new MarkerOptions().position(origin).title(title)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        mMap.addMarker(new MarkerOptions().position(origin).title(title));
+    }
+
+    public void updateMarker(LatLng origin, String title){
+        mMap.addMarker(new MarkerOptions().position(origin).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
     }
 
 
