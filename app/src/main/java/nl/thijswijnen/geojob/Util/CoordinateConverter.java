@@ -19,22 +19,25 @@ public class CoordinateConverter
         System.out.println(latSecondSplit);
         String latCleanSecondSplit = latSecondSplit[1].replace("’", "");
 
-        int latDegree = Integer.parseInt(latFirstSplit[0]);
-        int latDecimal = Integer.parseInt(latSecondSplit[0]);
-        int latMinute = Integer.parseInt(latCleanSecondSplit);
+        double latDegree = Integer.parseInt(latFirstSplit[0]);
+        double latDecimal = Integer.parseInt(latSecondSplit[0]);
+        double latMinute = Integer.parseInt(latCleanSecondSplit);
 
-        double latitudeDouble = latDegree + ((latMinute/16.73913)/60);
+        double latitudeDouble = latDegree + ((latDecimal+(latMinute/10000))/60);
 
         String lngFirstSplit [] = longitude.split("°");
         String lngSecondSplit []  = lngFirstSplit[1].split("\\.");
         String lngCleanSecondSplit = lngSecondSplit[1].replace("’", "");
 
-        int lngDegree = Integer.parseInt(lngFirstSplit[0]);
-        int lngDecimal = Integer.parseInt(lngSecondSplit[0]);
-        int lngMinute = Integer.parseInt(lngCleanSecondSplit);
+        double lngDegree = Integer.parseInt(lngFirstSplit[0]);
+        double lngDecimal = Integer.parseInt(lngSecondSplit[0]);
+        double lngMinute = Integer.parseInt(lngCleanSecondSplit);
 
-        double longitudeDouble = lngDegree + ((lngMinute/16.73913)/60);
+        double longitudeDouble = lngDegree  + ((lngDecimal+(lngMinute/10000))/60);
 
         return new LatLng(latitudeDouble, longitudeDouble);
     }
 }
+
+
+//16.673913043478260869565217391304)
