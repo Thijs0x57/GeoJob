@@ -33,8 +33,4 @@
     <string name="Location_word">Location</string>
     <string name="Year_word">Year</string>
     <string name="Photographer_word">Photographer</string>
-=======
-    <string name="Common_origin">Origin</string>
-    <string name="Common_noConnection">No connection</string>
->>>>>>> Temporary merge branch 2
 </resources>

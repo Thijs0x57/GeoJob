@@ -40,7 +40,7 @@ public class BlindWallsTest {
         Route r =  routes.get(0);
         assertThat(r.getAllPointsOfInterest().size(),is(10));
         PointOfInterest p = r.getAllPointsOfInterest().get(0);
-        assertThat(p.getTitle(),is("Stephen Espo Powers"));
+        assertThat(p.getTitle(),is("Mike Perry"));
     }
 
 }

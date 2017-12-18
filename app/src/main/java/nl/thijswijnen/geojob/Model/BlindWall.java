@@ -31,14 +31,6 @@ public class BlindWall extends PointOfInterest
         this.locationS = locationS;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getArtist() {
         return artist;
     }

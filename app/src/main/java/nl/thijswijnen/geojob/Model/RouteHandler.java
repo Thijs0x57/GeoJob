@@ -70,9 +70,9 @@ public class RouteHandler
         mapQueue = Volley.newRequestQueue(context);
         for (PointOfInterest p : points)
         {
-            if (p.getLatLng() != null)
+            if (p.getLocation() != null)
             {
-                poisLatLng.add(p.getLatLng());
+                poisLatLng.add(p.getLocation());
             }
         }
         List<String> urls = getUrls(origin);
