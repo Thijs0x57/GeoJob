@@ -105,7 +105,7 @@ public class BlindWalls extends Route implements Serializable
                     //checks for each point in the route the mural id and if thats is equal to another id it wil add it to this route.
                     int id = point.getInt("muralId");
                     for (int i1 = 0; i1 < b.getAllPointsOfInterest().size(); i1++) {
-                        if(i1 == id){
+                        if(i1 + 1 == id){
                             List<PointOfInterest> bwpois = bw.getAllPointsOfInterest();
                             bwpois.add(b.getAllPointsOfInterest().get(i1));
                             bw.setAllPointOfInterests(bwpois);

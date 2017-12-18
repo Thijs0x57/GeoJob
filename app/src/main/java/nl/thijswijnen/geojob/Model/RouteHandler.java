@@ -62,6 +62,11 @@ public class RouteHandler
         this.context = context;
         this.mMap = mMap;
 
+        northLat = Integer.MIN_VALUE;
+        southLat = Integer.MAX_VALUE;
+        northLng = Integer.MIN_VALUE;
+        southLng = Integer.MAX_VALUE;
+
         mapQueue = Volley.newRequestQueue(context);
         for (PointOfInterest p : points)
         {
@@ -89,12 +94,27 @@ public class RouteHandler
                     JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
                     JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
 
-                    northLat = northEastObject.getDouble("lat");
-                    northLng = northEastObject.getDouble("lng");
-                    southLat = southWestObject.getDouble("lat");
-                    southLng = southWestObject.getDouble("lng");
+                    double norhteastOblat = northEastObject.getDouble("lat");
+                    if(norhteastOblat > northLat){
+                        northLat = norhteastOblat;
+                    }
 
-                    //mMap.animateCamera(getCameraUpdate());
+                    double northeastOblng = northEastObject.getDouble("lng");
+                    if(northeastOblng > northLng){
+                        northLng = northeastOblng;
+                    }
+
+                    double southwestOblat = southWestObject.getDouble("lat");
+                    if(southwestOblat < southLat){
+                        southLat = southwestOblat;
+                    }
+
+                    double southwestOblng = southWestObject.getDouble("lng");
+                    if(southwestOblng < southLng){
+                        southLng = southwestOblng;
+                    }
+
+                    mMap.animateCamera(getCameraUpdate());
 
                     distance = Math.round(jLegs.getJSONObject(0).getJSONObject("distance").getInt("value") / 1000);
 
@@ -134,26 +154,26 @@ public class RouteHandler
         String trafficMode = "mode=walking";
         String output = "json";
 
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude + ",MA";
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
 
         for (int i = 0; i < poisLatLng.size(); i++) {
             if(i % 7 == 0 && i != 0|| i == poisLatLng.size() -1){
+                LatLng destinationLatLng;
                 if(i == poisLatLng.size()-1){
-                    waipointsString += poisLatLng.get(0).latitude + "," + poisLatLng.get(0).longitude + ",MA";
-                }
-
-                LatLng destinationLatLng = new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude);
-                String str_dest = "destination=" + destinationLatLng.latitude + "," + destinationLatLng.longitude + ",MA";
+                    waipointsString += "|" + poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude;
+                    destinationLatLng = origin;
+                }else  destinationLatLng = new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude);
+                String str_dest = "destination=" + destinationLatLng.latitude + "," + destinationLatLng.longitude;
                 String parameters = str_origin + "&" + str_dest + "&" + waipointsString + "&" + trafficMode;
                 String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&" + Constants.API_KEY;
                 urls.add(url);
                 waipointsString = "waypoints=";
-
+                str_origin = "origin=" + poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude;
             }else {
                 if(!waipointsString.equals("waypoints=")){
-                    waipointsString += " |";
+                    waipointsString += "|";
                 }
-                waipointsString += poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude + ", MA";
+                waipointsString += poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude;
             }
         }
 
@@ -174,7 +194,7 @@ public class RouteHandler
     }
 
     public PolylineOptions getPolylineOptions(){
-        PolylineOptions polylineOptions = new PolylineOptions().width(3).color(Color.RED);
+        PolylineOptions polylineOptions = new PolylineOptions().width(10).color(Color.RED);
         for (List<LatLng> leg : lines) {
             polylineOptions = polylineOptions.addAll(leg);
         }

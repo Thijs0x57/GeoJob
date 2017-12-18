@@ -17,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
             routeHandler = new RouteHandler(this, new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude()), pointOfInterestList,mMap);
         }else
         {
-            mMap.addPolyline(routeHandler.getPolylineOptions());
+            Polyline line = mMap.addPolyline(routeHandler.getPolylineOptions());
             mMap.animateCamera(routeHandler.getCameraUpdate());
         }
     }

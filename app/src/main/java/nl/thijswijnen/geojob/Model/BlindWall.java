@@ -18,14 +18,24 @@ public class BlindWall extends PointOfInterest
     private String materialEn;
     private String materialNl;
 
+    private int id;
+
     public BlindWall(String title, String descriptionNL, String descriptionEN, LatLng location, String artist, String photographer, String materialEn, String materialNl) {
         super(title, descriptionNL, descriptionEN, location);
         this.artist = artist;
         this.photographer = photographer;
         this.materialEn = materialEn;
         this.materialNl = materialNl;
+        this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getArtist() {
         return artist;
