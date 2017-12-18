@@ -14,6 +14,7 @@ public abstract class Route implements Serializable
 {
     private String routeTitle;
     private List<PointOfInterest> allPointOfInterests;
+    private List<PointOfInterest> HKPointsOfInterests;
     private String descriptionEN;
     private String descriptionNL;
 
@@ -22,8 +23,11 @@ public abstract class Route implements Serializable
         return allPointOfInterests;
     }
 
+    public List<PointOfInterest> getHKPointsOfInterests(){ return HKPointsOfInterests; }
+
     public Route() {
         allPointOfInterests = new ArrayList<>();
+        HKPointsOfInterests = new ArrayList<>();
     }
 
     public void load(Context context)
@@ -34,6 +38,10 @@ public abstract class Route implements Serializable
     public void setAllPointOfInterests(List<PointOfInterest> allPointOfInterests)
     {
         this.allPointOfInterests = allPointOfInterests;
+    }
+
+    public void setHKPointsOfInterests(List<PointOfInterest> HKPointsOfInterests){
+        this.HKPointsOfInterests = HKPointsOfInterests;
     }
 
     public void setRouteTitle(String routeTitle)

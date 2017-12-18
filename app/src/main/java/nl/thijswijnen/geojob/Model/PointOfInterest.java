@@ -75,7 +75,7 @@ public abstract class PointOfInterest implements Serializable
         this.allVideos = allVideos;
     }
 
-    public LatLng getLatLng() {
+    public LatLng getLocation() {
         return new LatLng(latitude,longitude);
     }
 

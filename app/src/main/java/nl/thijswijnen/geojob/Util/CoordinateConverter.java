@@ -15,7 +15,8 @@ public class CoordinateConverter
     {
         //latitude String to latitude decimal
         String latFirstSplit [] = latitude.split("°");
-        String latSecondSplit []  = latFirstSplit[1].split(".");
+        String latSecondSplit []  = latFirstSplit[1].split("\\.");
+        System.out.println(latSecondSplit);
         String latCleanSecondSplit = latSecondSplit[1].replace("’", "");
 
         int latDegree = Integer.parseInt(latFirstSplit[0]);
@@ -25,7 +26,7 @@ public class CoordinateConverter
         double latitudeDouble = latDegree + ((latMinute/16.73913)/60);
 
         String lngFirstSplit [] = longitude.split("°");
-        String lngSecondSplit []  = lngFirstSplit[1].split(".");
+        String lngSecondSplit []  = lngFirstSplit[1].split("\\.");
         String lngCleanSecondSplit = lngSecondSplit[1].replace("’", "");
 
         int lngDegree = Integer.parseInt(lngFirstSplit[0]);

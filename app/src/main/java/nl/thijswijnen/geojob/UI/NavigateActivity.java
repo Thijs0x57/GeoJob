@@ -1,16 +1,13 @@
 package nl.thijswijnen.geojob.UI;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,17 +16,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 
-import java.util.List;
-
 import nl.thijswijnen.geojob.Model.LocationHandler;
-import nl.thijswijnen.geojob.Model.PointOfInterest;
-import nl.thijswijnen.geojob.Model.Route;
-import nl.thijswijnen.geojob.Model.RouteHandler;
 import nl.thijswijnen.geojob.R;
-import nl.thijswijnen.geojob.Util.Constants;
 
 public class NavigateActivity extends FragmentActivity implements OnMapReadyCallback
 {
+
+    private GoogleMap mMap;
+
     final String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
     private LocationManager locationManager;
     private Location lastLocation = null;
@@ -45,7 +39,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigate);
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigate_map_map);
@@ -124,7 +117,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     {
         mMap = googleMap;
 
-        lastLocation = locationHandler.getLocation();
+        Location lastLocation = locationHandler.getLocation();
         if (lastLocation != null)
         {
             LatLng currentLocationLatLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
@@ -133,36 +126,5 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         callRouteHandler();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        //outState.putAll(Bundle b);
-        // ...
-        super.onSaveInstanceState(outState);
-    }
-
-    private void updateValuesFromBundle(Bundle savedInstanceState) {
-        // Update the value of mRequestingLocationUpdates from the Bundle.
-        if (savedInstanceState.keySet().contains("LocationHandlerKey")) {
-            //locationHandler = savedInstanceState.getSerializable("LocationHandlerKey");
-        }
-
-        // ...
-
-        // Update UI to match restored state
-        //updateUI();
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        locationHandler.setShouldShareLocation(true);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        locationHandler.setShouldShareLocation(false);
     }
 }

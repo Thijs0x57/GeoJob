@@ -19,7 +19,7 @@ public class BlindWall extends PointOfInterest
     private String materialNl;
 
     private String year;
-    private String location;
+    private String locationS;
 
     public BlindWall(String title, String descriptionNL, String descriptionEN, LatLng location, String artist, String photographer, String materialEn, String materialNl, String year, String locationS) {
         super(title, descriptionNL, descriptionEN, location);
@@ -28,7 +28,7 @@ public class BlindWall extends PointOfInterest
         this.materialEn = materialEn;
         this.materialNl = materialNl;
         this.year = year;
-        this.location = locationS;
+        this.locationS = locationS;
     }
 
     public int getId() {
@@ -69,5 +69,21 @@ public class BlindWall extends PointOfInterest
 
     public void setMaterialNl(String materialNl) {
         this.materialNl = materialNl;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getLocationS() {
+        return locationS;
+    }
+
+    public void setLocationS(String locationS) {
+        this.locationS = locationS;
     }
 }

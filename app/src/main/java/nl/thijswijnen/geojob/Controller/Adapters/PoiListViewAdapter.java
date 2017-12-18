@@ -34,7 +34,7 @@ public class PoiListViewAdapter extends RecyclerView.Adapter<PoiListViewAdapter.
 
     @Override
     public void onBindViewHolder(POIViewHolder holder, int position) {
-        holder.title.setText(pointOfInterests.get(position).getTitle());
+        holder.title.setText((position+1) + ". " + pointOfInterests.get(position).getTitle());
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
