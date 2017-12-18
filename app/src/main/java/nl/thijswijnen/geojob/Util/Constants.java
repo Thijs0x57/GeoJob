@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 public class Constants
 {
     public static final String API_KEY = "AIzaSyDlPMbvEikR40aphGhAQHBirTTPonIR5Ic";
+    public static final int GEOFENCE_RADIUS_IN_METERS = 5;
+    public static final int GEOFENCE_EXPIRATION_IN_MILLISECONDS = 10000;
 
     public static final int PERMISSION_REQUEST_CODE = 698;
 
