@@ -11,5 +11,6 @@
     <color name="colorButtons">#ed7d31</color>
     <color name="colorLeftRed">#f85040</color>
     <color name="colorBackground">#FDC54C</color>
-
+    <color name="notificationThumbTint">#3284ff</color>
+    <color name="notificationTrackTint">#329fff</color>
 </resources>

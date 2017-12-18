@@ -139,18 +139,20 @@
 
         <Switch
             android:id="@+id/settings_notifications_swtch"
-            android:layout_width="wrap_content"
+            android:layout_width="43dp"
             android:layout_height="27dp"
             android:layout_marginEnd="52dp"
             android:layout_marginTop="44dp"
+            android:thumbTint="@color/notificationThumbTint"
+            android:trackTint="@color/notificationTrackTint"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/standard_gdlnVVVLogo2" />
+            app:layout_constraintTop_toTopOf="@+id/standard_gdlnVVVLogo2"/>
 
         <TextView
             android:id="@+id/settings_notifications_txtvw"
             android:layout_width="170dp"
             android:layout_height="17dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginStart="8dp"
             android:gravity="center"
             android:text="@string/SettingsActivity_ShowNotifications"
@@ -159,7 +161,7 @@
             app:layout_constraintHorizontal_bias="0.313"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/settings_notifications_swtch"
-            tools:text="@string/SettingsActivity_ShowNotifications" />
+            tools:text="@string/SettingsActivity_ShowNotifications"/>
 
         <Button
             android:id="@+id/settings_chooselanguage_btn"
