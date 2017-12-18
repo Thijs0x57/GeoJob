@@ -152,16 +152,15 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             public void onInfoWindowClick(Marker marker) {
-//                Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
-//                PointOfInterest poi=null;
-//                for(PointOfInterest p:route.getAllPointsOfInterest()){
-//                    if(p.getTitle().equals(marker.getTitle())){
-//                        poi = p;
-//                    }
-//                }
-//                i.putExtra("POI",poi);
-//                startActivity(i);
-                openPOI(marker);
+                Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
+                PointOfInterest poi=null;
+                for(PointOfInterest p:route.getAllPointsOfInterest()){
+                    if(p.getTitle().equals(marker.getTitle())){
+                        poi = p;
+                    }
+                }
+                i.putExtra("POI",poi);
+                startActivity(i);
             }
         });
 
