@@ -24,7 +24,6 @@
     <string name="Error_title">Een fout vond plaats</string>
     <string name="Error_noGPS">Geen GPS signaal, zet de GPS aan.</string>
     <string name="Common_ok">Oké</string>
-    <string name="Location_word">Locatie</string>
-    <string name="Year_word">Year</string>
-    <string name="Photographer_word">Photographer</string>
+    <string name="Location_word">Locatie:</string>
+    <string name="Year_word">Jaar:</string>
 </resources>

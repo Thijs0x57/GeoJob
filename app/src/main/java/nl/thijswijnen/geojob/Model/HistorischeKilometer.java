@@ -23,16 +23,19 @@ import nl.thijswijnen.geojob.Util.CoordinateConverter;
 
 public class HistorischeKilometer extends Route implements Serializable
 {
+
+
     public void load(Context context)
     {
         setRouteTitle(context.getString(R.string.historischeKilometer));
+        setDescriptionEN("The Historical Kilometer is a route that goes through the historical city of Breda ");
+        setDescriptionNL("De Historische Kilometer is een route die door de historische binnenstad van Breda loopt");
         List<PointOfInterest> pointOfInterests = new ArrayList<>();
+        List<PointOfInterest> HKpointOfInterests = new ArrayList<>();
         try{
             JSONArray array = new JSONArray(loadJSONFromAsset(context));
             for (int i = 0; i < array.length(); i++){
                 JSONObject monument = array.getJSONObject(i);
-
-                int monumentNumber = monument.getInt("1");
 
                 String latitude = monument.getString("latitude");
                 String longitude = monument.getString("longitude");
@@ -42,38 +45,41 @@ public class HistorischeKilometer extends Route implements Serializable
 
                 JSONObject description = monument.getJSONObject("Verhaal");
                 String descriptionNL = description.getString("NL");
-                String descriptionEN = description.getString("EN");
+                String descriptionEN = description.getString("ENG");
 
                 //images
+                ArrayList<String> listDataImages = new ArrayList<String>();
                 JSONArray images = monument.getJSONArray("Image");
                 for (int j = 0; j < images.length(); j++){
                     String image = images.getString(j);
-                }
-                //creating list from the jsonArray
-                ArrayList<String> listDataImages = new ArrayList<String>();
-                for (int im=0; im<images.length(); im++){
-                    listDataImages.add(images.getString(im));
+                    listDataImages.add(image);
                 }
                 List<String> imagesList = listDataImages;
 
                 //videos
+                ArrayList<String> listDataVideos = new ArrayList<String>();
                 JSONArray videos = monument.getJSONArray("Video");
                 for (int v = 0; v < videos.length(); v++){
                     String video = videos.getString(v);
-                }
-                //creating list from the jsonArray
-                ArrayList<String> listDataVideos = new ArrayList<String>();
-                for (int vi=0; vi<images.length(); vi++){
-                    listDataVideos.add(images.getString(vi));
+                    listDataVideos.add(video);
                 }
                 List<String> videosList = listDataVideos;
 
                 PointOfInterest poi = new Monument(title, descriptionNL, descriptionEN, location);
                 poi.setAllImages(imagesList);
                 poi.setAllVideos(videosList);
+
+                if(!poi.getTitle().equals("")){
+                    HKpointOfInterests.add(poi);
+                    System.out.println(poi.getTitle());
+                }
+                pointOfInterests.add(poi);
             }
         } catch (JSONException e){
             e.printStackTrace();
+        }
+        if(!HKpointOfInterests.isEmpty()){
+            setHKPointsOfInterests(HKpointOfInterests);
         }
         setAllPointOfInterests(pointOfInterests);
     }

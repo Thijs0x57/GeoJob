@@ -53,6 +53,7 @@ public class RouteListViewAdapter extends RecyclerView.Adapter<RouteListViewAdap
             public void onClick(View view) {
                 Intent i = new Intent(holder.cardView.getContext(), DetailRouteActivity.class);
                 i.putExtra("route", filterdRoute.get(position));
+                System.out.println(filterdRoute.get(position));
                 holder.cardView.getContext().startActivity(i);
             }
         });
@@ -63,7 +64,7 @@ public class RouteListViewAdapter extends RecyclerView.Adapter<RouteListViewAdap
         return filterdRoute.size();
     }
 
-    public Route getRotue(int position) { return  routes.get(position);}
+    public Route getRoute(int position) { return  routes.get(position);}
 
     public class RouteViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
@@ -93,7 +94,7 @@ public class RouteListViewAdapter extends RecyclerView.Adapter<RouteListViewAdap
             }else {
                 final String filter = constraint.toString().toLowerCase();
                 for (Route route : routes) {
-                    if(route.getRouteTitle().toLowerCase().startsWith(filter)){
+                    if(route.getRouteTitle().toLowerCase().contains(filter)){
                         filterdRoute.add(route);
                     }
                 }
