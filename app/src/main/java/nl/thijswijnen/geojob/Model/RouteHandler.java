@@ -88,23 +88,22 @@ public class RouteHandler
         lines = new ArrayList<>();
         polylinesMap = new HashMap<>();
 
+
+        addMarker(origin, context.getString(R.string.Common_origin));
+        for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
+            addMarker(pointOfInterest.getLocation(),pointOfInterest.getTitle());
+        }
+
         for (int i = 0; i < urls.size(); i ++) {
             String url = urls.get(i);
             int finalI = i;
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
                 synchronized (lines){
                     try {
-                        addMarker(origin, context.getString(R.string.Common_origin));
-                        for (int j = 0; j < poisLatLng.size(); j++)
-                        {
-                            if(route instanceof HistorischeKilometer){
-                                for (PointOfInterest p : route.getHKPointsOfInterests()) {
-                                    if(p.getLocation().equals(poisLatLng.get(j))){
-                                        addMarker(new LatLng(poisLatLng.get(j).latitude, poisLatLng.get(j).longitude), points.get(j).getTitle());
-                                    }
-                                }
-                            }else addMarker(new LatLng(poisLatLng.get(j).latitude, poisLatLng.get(j).longitude), points.get(j).getTitle());
-                        }
+
+
+
+
 
                         JSONArray jRoutes = response.getJSONArray("routes");
                         JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
@@ -210,6 +209,7 @@ public class RouteHandler
     private void addMarker(LatLng origin, String title)
     {
         context.runOnUiThread(() -> {
+            Log.d("Marker","marker added");
             markers.add(mMap.addMarker(new MarkerOptions().position(origin).title(title)));
         });
     }

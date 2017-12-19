@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.thijswijnen.geojob.Model.GeoFenceHandler;
@@ -139,10 +140,11 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
             {
                 mMap.animateCamera(routeHandler.getCameraUpdate());
             }
-            
+
             new Thread(() ->{
                 final boolean[] onePointHasBeenFound = {false};
 
+                List<Polyline> lines = new ArrayList<>();
                 while (true){
                     currentLoc[0] = handler.getLocation();
                     for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
@@ -153,26 +155,30 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                         }
                     }
 
-                    if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
+                    if(lines.isEmpty() && routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
                         if(!onePointHasBeenFound[0]){
-                            prevLine = routeHandler.getPolylinesMap().get(0);
+                            lines.addAll(routeHandler.getPolylinesMap());
+                            prevLine = lines.get(0);
                         }
 
                         if(handler.getLocation() != null){
+                            List<LatLng> prevPoints = new ArrayList<>();
                             runOnUiThread(() -> {
-                                float distance = distance(prevLine.getPoints().get(1).latitude,prevLine.getPoints().get(1).longitude,handler.getLocation().getLatitude(),handler.getLocation().getLongitude());
+                                prevPoints.addAll(prevLine.getPoints());
+                                float distance = distance(prevPoints.get(1).latitude, prevPoints.get(1).longitude, handler.getLocation().getLatitude(), handler.getLocation().getLongitude());
                                 if(distance < 10){
-                                    prevLine.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
-                                    int index = routeHandler.getPolylinesMap().indexOf(prevLine);
-                                    if(index < routeHandler.getPolylinesMap().size()){
-                                        prevLine = routeHandler.getPolylinesMap().get(index + 1);
+
+                                        prevLine.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
+
+                                    int index = lines.indexOf(prevLine);
+                                    if(index < lines.size()){
+                                        prevLine = lines.get(index + 1);
                                     }
                                     onePointHasBeenFound[0] = true;
                                 }
                             });
                         }
                     }
-
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
