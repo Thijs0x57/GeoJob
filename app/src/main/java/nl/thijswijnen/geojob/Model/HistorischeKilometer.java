@@ -32,6 +32,7 @@ public class HistorischeKilometer extends Route implements Serializable
         setDescriptionNL("De Historische Kilometer is een route die door de historische binnenstad van Breda loopt");
         List<PointOfInterest> pointOfInterests = new ArrayList<>();
         List<PointOfInterest> HKpointOfInterests = new ArrayList<>();
+
         try{
             JSONArray array = new JSONArray(loadJSONFromAsset(context));
             for (int i = 0; i < array.length(); i++){
