@@ -51,6 +51,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     private Route route;
 
     private Polyline prevLine;
+    private PointOfInterest nextPointOfInterest;
     private GeoFenceHandler geoFenceHandler;
 
     @Override
@@ -104,18 +105,19 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         if (!p.isVisited()) {
             Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
             p.setVisited(true);
-            for (Marker marker : routeHandler.getMarkers()) {
-
-                runOnUiThread(() -> {
-                    if(marker.getPosition().equals(p.getLocation())){
-                        marker.remove();
-                    }
-                });
+            synchronized (routeHandler){
+                for (Marker marker : routeHandler.getMarkers()) {
+                    runOnUiThread(() -> {
+                        if(marker.getPosition().equals(p.getLocation())){
+                            marker.remove();
+                        }
+                    });
+                }
+                routeHandler.updateMarker(p.getLocation(), p.getTitle());
+                i.putExtra("POI", p);
+                startActivity(i);
+                Log.d("NavigateActiviy","open poi");
             }
-            routeHandler.updateMarker(p.getLocation(), p.getTitle());
-            i.putExtra("POI", p);
-            startActivity(i);
-            Log.d("NavigateActiviy","open poi");
         }
     }
 
@@ -143,17 +145,48 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
             new Thread(() ->{
                 final boolean[] onePointHasBeenFound = {false};
+                nextPointOfInterest = pointOfInterestList.get(0);
+
+                synchronized (routeHandler) {
+                    for (Marker marker : routeHandler.getMarkers()) {
+                        runOnUiThread(() -> {
+                            if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
+                                marker.remove();
+                            }
+                        });
+                    }
+                    routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(), nextPointOfInterest.getTitle());
+                }
+
+
+                routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(),nextPointOfInterest.getTitle());
 
                 List<Polyline> lines = new ArrayList<>();
                 while (true){
                     currentLoc[0] = handler.getLocation();
                     for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
-                        float distance = distance(pointOfInterest.getLocation().latitude,pointOfInterest.getLocation().longitude,
-                                currentLoc[0].getLatitude(), currentLoc[0].getLongitude());
-                        if(distance < 5){
-                            openPOI(pointOfInterest);
+                        if(!pointOfInterest.isVisited()){
+                            float distance = distance(pointOfInterest.getLocation().latitude,pointOfInterest.getLocation().longitude,
+                                    currentLoc[0].getLatitude(), currentLoc[0].getLongitude());
+                            if(distance < 5){
+                                if(pointOfInterestList.indexOf(nextPointOfInterest) + 1 < pointOfInterestList.size())
+                                    nextPointOfInterest = pointOfInterestList.get(pointOfInterestList.indexOf(nextPointOfInterest) + 1);
+
+                                synchronized (routeHandler) {
+                                    for (Marker marker : routeHandler.getMarkers()) {
+                                        runOnUiThread(() -> {
+                                            if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
+                                                marker.remove();
+                                            }
+                                        });
+                                    }
+                                    routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(), nextPointOfInterest.getTitle());
+                                }
+                                openPOI(pointOfInterest);
+                            }
                         }
                     }
+
 
                     if(lines.isEmpty() && routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
                         if(!onePointHasBeenFound[0]){

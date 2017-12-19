@@ -89,7 +89,6 @@ public class RouteHandler
         polylinesMap = new HashMap<>();
 
 
-        addMarker(origin, context.getString(R.string.Common_origin));
         for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
             addMarker(pointOfInterest.getLocation(),pointOfInterest.getTitle());
         }
@@ -188,7 +187,8 @@ public class RouteHandler
                 LatLng destinationLatLng;
                 if(i == poisLatLng.size()-1){
                     waipointsString += "|" + poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude;
-                    destinationLatLng = origin;
+                    destinationLatLng = new LatLng(51.5941723,4.7791959);
+                    addMarker(destinationLatLng,"VVV");
                 }else  destinationLatLng = new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude);
                 String str_dest = "destination=" + destinationLatLng.latitude + "," + destinationLatLng.longitude;
                 String parameters = str_origin + "&" + str_dest + "&" + waipointsString + "&" + trafficMode;
@@ -210,12 +210,24 @@ public class RouteHandler
     {
         context.runOnUiThread(() -> {
             Log.d("Marker","marker added");
-            markers.add(mMap.addMarker(new MarkerOptions().position(origin).title(title)));
+            synchronized (markers){
+                markers.add(mMap.addMarker(new MarkerOptions().position(origin).title(title)));
+            }
         });
     }
 
     public void updateMarker(LatLng origin, String title){
-        context.runOnUiThread(() -> markers.add(mMap.addMarker(new MarkerOptions().position(origin).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))));
+        context.runOnUiThread(() ->{
+            synchronized (markers){
+                markers.add(mMap.addMarker(new MarkerOptions().position(origin).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))));
+            }
+        });
+    }
+
+    public void updateMarkerDarkBlue(LatLng origin,String title){
+        context.runOnUiThread(() -> {
+            markers.add(mMap.addMarker(new MarkerOptions().position(origin).title(title).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+        });
     }
 
 
