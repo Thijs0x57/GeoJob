@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import nl.thijswijnen.geojob.Controller.Adapters.ImagePagerAdapter;
 import nl.thijswijnen.geojob.Model.BlindWall;
 import nl.thijswijnen.geojob.Model.Monument;
 import nl.thijswijnen.geojob.Model.PointOfInterest;
@@ -32,17 +33,23 @@ public class DetailPoiActivity extends AppCompatActivity
         setContentView(R.layout.activity_detail_poi);
 
         ViewPager viewPager = findViewById(R.id.activity_detailed_viewpages_images_id);
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        viewPager.setOffscreenPageLimit(3);
+        //viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         Bundle b = getIntent().getExtras();
         if (b.getSerializable("POI") != null) {
             PointOfInterest poi = (PointOfInterest) b.getSerializable("POI");
             Locale currentLocale = getResources().getConfiguration().locale;
 
+            ImagePagerAdapter adapter = new ImagePagerAdapter(this,poi);
+            viewPager.setAdapter(adapter);
+
+
+
             TextView title = findViewById(R.id.detailPoi_title_txtvw);
             title.setText(poi.getTitle());
 
-            // -> IMAGES TOEVOEGEN ImageView image = findViewById(R.id.activity_detailed_viewpages_images_id);
+
             TextView locationTxt = findViewById(R.id.detailedPoi_Location_txtview);
             TextView description = findViewById(R.id.detailPoi_description_txtvw);
             TextView materialTxt = findViewById(R.id.detailedPoi_Material_txtview);
@@ -53,7 +60,6 @@ public class DetailPoiActivity extends AppCompatActivity
             if (poi.getClass() == BlindWall.class) {
                 BlindWall BPoi = (BlindWall) poi;
 
-                //--> IMAGES TOEVOEGEN image.setImageResource(BPoi.getAllImages().indexOf(0));
 
                 locationTxt.setText(BPoi.getLocationS());
 
