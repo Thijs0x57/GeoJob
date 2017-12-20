@@ -99,11 +99,6 @@ public class RouteHandler
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
                 synchronized (lines){
                     try {
-
-
-
-
-
                         JSONArray jRoutes = response.getJSONArray("routes");
                         JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
                         JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
@@ -184,12 +179,7 @@ public class RouteHandler
 
         for (int i = 0; i < poisLatLng.size(); i++) {
             if(i % 7 == 0 && i != 0|| i == poisLatLng.size() -1){
-                LatLng destinationLatLng;
-                if(i == poisLatLng.size()-1){
-                    waipointsString += "|" + poisLatLng.get(i).latitude + "," + poisLatLng.get(i).longitude;
-                    destinationLatLng = new LatLng(51.5941723,4.7791959);
-                    addMarker(destinationLatLng,"VVV");
-                }else  destinationLatLng = new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude);
+                LatLng destinationLatLng = new LatLng(poisLatLng.get(i).latitude, poisLatLng.get(i).longitude);
                 String str_dest = "destination=" + destinationLatLng.latitude + "," + destinationLatLng.longitude;
                 String parameters = str_origin + "&" + str_dest + "&" + waipointsString + "&" + trafficMode;
                 String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&" + Constants.API_KEY;
