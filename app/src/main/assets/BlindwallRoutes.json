@@ -58,6 +58,11 @@
         "id": 18,
         "muralId": 5,
         "order": 1800
+      },
+      {
+        "id": 88,
+        "muralId": 67,
+        "order": 1850
       }
     ]
   },
@@ -152,8 +157,8 @@
         "order": 2700
       },
       {
-        "id": 79,
-        "muralId": 7,
+        "id": 88,
+        "muralId": 67,
         "order": 2800
       }
     ]
@@ -282,6 +287,11 @@
         "id": 87,
         "muralId": 8,
         "order": 3400
+      },
+      {
+        "id": 88,
+        "muralId": 67,
+        "order": 3500
       }
     ]
   }

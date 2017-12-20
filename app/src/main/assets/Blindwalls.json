@@ -4388,5 +4388,46 @@
         "type": "wall"
       }
     ]
+  },
+  {
+    "id": 67,
+    "published": 1,
+    "date": 1503924686,
+    "dateModified": 1503924686,
+    "authorID": 67,
+    "latitude": 51.588328,
+    "longitude": 4.770159,
+    "address": "Willemstraat",
+    "numberOnMap": 67,
+    "videoUrl": null,
+    "year": "0000",
+    "photographer": "-",
+    "videoAuthor": "",
+    "author": "-",
+    "rating": 5,
+    "title": {
+      "en": "-",
+      "nl": "-"
+    },
+    "url": {
+      "en": "",
+      "nl": ""
+    },
+    "description": {
+      "en": "Tourist information Breda.",
+      "nl": "VVV Breda"
+    },
+    "material": {
+      "en": "-",
+      "nl": "-"
+    },
+    "category": {
+      "id": 1,
+      "en": "Blind Wall",
+      "nl": "Blind Wall"
+    },
+    "images": [
+
+    ]
   }
 ]
