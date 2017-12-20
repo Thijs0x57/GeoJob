@@ -1086,15 +1086,40 @@
 	},
 	{
 		"number": "44",
-		"latitude": "51°35.3700’",
-		"longitude": "4°46.5750’",
+        "latitude": "51°35.3700’",
+        "longitude": "4°46.5750’",
 		"VVV": "Einde stadswandeling",
 		"Beginpunt": "Eindpunt",
 		"Verhaal" :
 		{
-			"Default" : "",
-			"NL" : "",
-			"ENG" : ""
+			"Default" : "Dit is het eindpunt van de route. U kunt er voor kiezen nog even in het centrum te blijven. De routebeschrijving begeleidt u nog terug naar de VVV/Station als u deze verder volgt.",
+			"NL" : "Dit is het eindpunt van de route. U kunt er voor kiezen nog even in het centrum te blijven. De routebeschrijving begeleidt u nog terug naar de VVV/Station als u deze verder volgt.",
+			"ENG" : "The route is finished. You can choose to stay in the city center. If you want to go back to the Tourist information or the railway station, please follow the route to the last point."
+		},
+		"Image" :
+		[
+
+		],
+		"Audio" :
+		[
+
+		],
+		"Video" :
+		[
+
+		]
+	},
+	{
+		"number": "45",
+        "latitude": "51°35.6503’",
+        "longitude": "4°46.7518’",
+		"VVV": "VVV",
+		"Beginpunt": "Willemstraat",
+		"Verhaal" :
+		{
+			"Default" : "Welkom bij de VVV van Breda.",
+			"NL" : "Welkom bij de VVV van Breda.",
+			"ENG" : "Welcom at the tourist information from the city Breda."
 		},
 		"Image" :
 		[
