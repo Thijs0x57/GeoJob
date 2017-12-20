@@ -29,7 +29,7 @@ public class BlindWallsTest {
     public void load() throws Exception {
         blindWalls.load(context);
         assertThat(blindWalls.getRouteTitle(),is("Blindwalls"));
-        assertThat(blindWalls.getAllPointsOfInterest().size(),is(66));
+        assertThat(blindWalls.getAllPointsOfInterest().size(),is(67));
         assertThat(blindWalls.getDescriptionEN(),is("The blindwalls route is a route "));
     }
 
@@ -38,7 +38,7 @@ public class BlindWallsTest {
         List<Route> routes = BlindWalls.getBlindWallsRoutes(context);
         assertThat(routes.size(),is(3));
         Route r =  routes.get(0);
-        assertThat(r.getAllPointsOfInterest().size(),is(10));
+        assertThat(r.getAllPointsOfInterest().size(),is(11));
         PointOfInterest p = r.getAllPointsOfInterest().get(0);
         assertThat(p.getTitle(),is("Mike Perry"));
     }

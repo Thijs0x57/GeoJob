@@ -37,7 +37,7 @@ public class LanguageActivityTest {
         onView(withId(R.id.language_dutch_imgButt)).check(matches(isDisplayed()));
         onView(withId(R.id.language_dutch_imgButt)).perform(click());
 
-        intended(hasComponent(WelcomeActivity.class.getName()));
+        assertTrue(mActivity.getActivity().isDestroyed());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class LanguageActivityTest {
         onView(withId(R.id.language_english_imgButt)).check(matches(isDisplayed()));
         onView(withId(R.id.language_english_imgButt)).perform(click());
 
-        intended(hasComponent(WelcomeActivity.class.getName()));
+        assertTrue(mActivity.getActivity().isDestroyed());
     }
 
 }

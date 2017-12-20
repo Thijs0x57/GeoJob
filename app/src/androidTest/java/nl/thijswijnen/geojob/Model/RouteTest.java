@@ -27,7 +27,7 @@ public class RouteTest {
 
     @Test
     public void getAllPointsOfInterest() throws Exception {
-        assertThat(blindwall.getAllPointsOfInterest().size(),is(66));
+        assertThat(blindwall.getAllPointsOfInterest().size(),is(67));
     }
 
     @Test
