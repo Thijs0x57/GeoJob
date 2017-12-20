@@ -12,11 +12,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -99,6 +101,9 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
         //init for loop
         nextPointOfInterest = route.getHKPointsOfInterests().get(0);
+
+        //Stops je screen from turning off.
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     private AlertDialog showExitAlertdiaglog(){
