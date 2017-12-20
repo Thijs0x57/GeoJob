@@ -101,7 +101,7 @@ public class RouteHandler
                     try {
                         JSONArray jRoutes = response.getJSONArray("routes");
                         JSONArray jLegs = jRoutes.getJSONObject(0).getJSONArray("legs");
-                        JSONArray jSteps = jLegs.getJSONObject(0).getJSONArray("steps");
+
 
                         JSONObject northEastObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast");
                         JSONObject southWestObject = jRoutes.getJSONObject(0).getJSONObject("bounds").getJSONObject("southwest");
@@ -145,6 +145,7 @@ public class RouteHandler
                             Polyline p = mMap.addPolyline(polylineOptions);
                             polylines.add(p);
                         }
+                        lines.clear();
                         synchronized (polylines){
                             polylinesMap.put(finalI,polylines);
                         }
