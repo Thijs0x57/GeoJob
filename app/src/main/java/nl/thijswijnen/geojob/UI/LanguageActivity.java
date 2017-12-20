@@ -65,8 +65,8 @@ public class LanguageActivity extends AppCompatActivity
         conf.locale = WelcomeActivity.myLocale;
         res.updateConfiguration(conf, dm);
 
-        Intent welcomeIntent = new Intent(context, WelcomeActivity.class);
+        /*Intent welcomeIntent = new Intent(context, WelcomeActivity.class);
         welcomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(welcomeIntent);
+        context.startActivity(welcomeIntent);*/
     }
 }
