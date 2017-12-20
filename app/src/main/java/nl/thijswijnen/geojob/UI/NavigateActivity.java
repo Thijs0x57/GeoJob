@@ -131,18 +131,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         isRunningInBackground = false;
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("NavigateActivity","geofencingReceiver has been unregisterd");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("NavigateActivity","geofencingReceiver has been registerd");
-    }
-
     //TODO: ROEP DEZE AAN ALS DE GEOLOCATIE GETRIGGERD WORDT
     private void openPOI(PointOfInterest p) {
         if (!p.isVisited()) {
