@@ -71,6 +71,9 @@ public class DetailPoiActivity extends AppCompatActivity
                 } else if (currentLocale.equals(new Locale("nl"))) {
                     materialTxt.setText(BPoi.getMaterialNl());
                     description.setText(poi.getDescriptionNL());
+                }else{
+                    materialTxt.setText(BPoi.getMaterialNl());
+                    description.setText(poi.getDescriptionNL());
                 }
 
                 if (url.length()>5){
@@ -120,7 +123,7 @@ public class DetailPoiActivity extends AppCompatActivity
                     description.setText(poi.getDescriptionEN());
                 } else if (currentLocale.equals(new Locale("nl"))) {
                     description.setText(poi.getDescriptionNL());
-                }
+                }else{description.setText(poi.getDescriptionNL());}
 
                 Guideline highLvl = findViewById(R.id.guideline6);
                 ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) highLvl.getLayoutParams();
