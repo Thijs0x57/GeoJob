@@ -49,6 +49,7 @@
 
         <activity
             android:name=".UI.NavigateActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_navigate" />
 
         <service android:name=".Model.GeoFencingService"></service>
