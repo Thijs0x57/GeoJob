@@ -2,8 +2,10 @@ package nl.thijswijnen.geojob.UI;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -14,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +54,11 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
     private Route route;
 
-    private Polyline prevLine;
+
     private PointOfInterest nextPointOfInterest;
     private GeoFenceHandler geoFenceHandler;
+
+    private boolean isRunningInBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +82,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
         geoFenceHandler = new GeoFenceHandler(this);
 
+
         for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
             geoFenceHandler.createGeoFence(pointOfInterest.getLocation());
         }
@@ -83,10 +90,42 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
         Button backbutton = findViewById(R.id.navigate_pauzeplay_btn);
         backbutton.setOnClickListener(view -> {
-           finish();
+            showExitAlertdiaglog();
         });
+
+        //init for loop
+        nextPointOfInterest = route.getHKPointsOfInterests().get(0);
     }
 
+    private AlertDialog showExitAlertdiaglog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.exit_navigate_activity_tile));
+        builder.setPositiveButton(getResources().getString(R.string.exit_navigate_activity_positive), (dialogInterface, i) -> {
+            finish();
+        });
+        builder.setNegativeButton(getResources().getString(R.string.exit_navigate_cancel), (dialogInterface, i) -> {
+
+        });
+        return builder.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        showExitAlertdiaglog();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isRunningInBackground = true;
+        callRouteHandler();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isRunningInBackground = false;
+    }
 
     @Override
     protected void onPause() {
@@ -105,7 +144,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         if (!p.isVisited()) {
             Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
             p.setVisited(true);
-            synchronized (routeHandler){
+            synchronized (routeHandler.getMarkers()){
                 for (Marker marker : routeHandler.getMarkers()) {
                     runOnUiThread(() -> {
                         if(marker.getPosition().equals(p.getLocation())){
@@ -125,7 +164,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     {
         new Thread(() ->{
             LocationHandler handler = LocationHandler.getInstance(this);
-            while (handler.getLocation() == null){
+            while (handler.getLocation() == null || mMap == null){
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -134,20 +173,21 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
             }
 
             final Location[] currentLoc = {handler.getLocation()};
-            List<PointOfInterest> pointOfInterestList = route.getAllPointsOfInterest();
+            List<PointOfInterest> pointOfInterestList = route.getHKPointsOfInterests();
             if (routeHandler == null)
             {
                 routeHandler = new RouteHandler(this, new LatLng(currentLoc[0].getLatitude(), currentLoc[0].getLongitude()), pointOfInterestList,mMap,route);
             }else
             {
-                mMap.animateCamera(routeHandler.getCameraUpdate());
+                runOnUiThread(() -> {
+                    mMap.animateCamera(routeHandler.getCameraUpdate());
+                });
             }
 
             new Thread(() ->{
-                final boolean[] onePointHasBeenFound = {false};
-                nextPointOfInterest = pointOfInterestList.get(0);
+                boolean init = false;
 
-                synchronized (routeHandler) {
+                synchronized (routeHandler.getMarkers()) {
                     for (Marker marker : routeHandler.getMarkers()) {
                         runOnUiThread(() -> {
                             if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
@@ -155,60 +195,78 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                             }
                         });
                     }
-                    routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(), nextPointOfInterest.getTitle());
                 }
 
 
                 routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(),nextPointOfInterest.getTitle());
 
-                List<Polyline> lines = new ArrayList<>();
-                while (true){
+                while (isRunningInBackground){
+
+                    if(!routeHandler.getPolylinesMap().isEmpty()){
+                        runOnUiThread(()->{
+                            for (Polyline polyline : routeHandler.getPolylinesMap()) {
+                                if(!PolyUtil.isLocationOnPath(new LatLng(currentLoc[0].getLatitude(),currentLoc[0].getLongitude()),polyline.getPoints(),false,1.0)){
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                                    builder.setCancelable(false);
+                                    builder.setTitle(getResources().getString(R.string.navigate_exit_route));
+                                    builder.setPositiveButton(getResources().getString(R.string.exit_navigate_activity_positive), (dialogInterface, i) -> {
+                                    });
+                                }
+                            }
+                        });
+                    }
+
+
+
                     currentLoc[0] = handler.getLocation();
                     for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
-                        if(!pointOfInterest.isVisited()){
+                        if(!pointOfInterest.isVisited() || pointOfInterest.equals(nextPointOfInterest)){
                             float distance = distance(pointOfInterest.getLocation().latitude,pointOfInterest.getLocation().longitude,
                                     currentLoc[0].getLatitude(), currentLoc[0].getLongitude());
-                            if(distance < 5){
-                                if(pointOfInterestList.indexOf(nextPointOfInterest) + 1 < pointOfInterestList.size())
-                                    nextPointOfInterest = pointOfInterestList.get(pointOfInterestList.indexOf(nextPointOfInterest) + 1);
+                            if(distance < 20){
+                                runOnUiThread(()->{
+                                    //only next marker should be blue
+                                    if(pointOfInterest.equals(nextPointOfInterest)){
+                                        synchronized (routeHandler.getMarkers()) {
+                                            for (Marker marker : routeHandler.getMarkers()) {
+                                                if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
+                                                    marker.remove();
 
-                                synchronized (routeHandler) {
-                                    for (Marker marker : routeHandler.getMarkers()) {
-                                        runOnUiThread(() -> {
-                                            if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
-                                                marker.remove();
+                                                }
                                             }
-                                        });
-                                    }
-                                    routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(), nextPointOfInterest.getTitle());
-                                }
-                                openPOI(pointOfInterest);
+
+                                            if(!pointOfInterest.isVisited()){
+                                                openPOI(pointOfInterest);
+                                            }else routeHandler.updateMarker(nextPointOfInterest.getLocation(),nextPointOfInterest.getTitle());
+
+                                            if(pointOfInterestList.indexOf(nextPointOfInterest) + 1 < pointOfInterestList.size())
+                                                nextPointOfInterest = pointOfInterestList.get(pointOfInterestList.indexOf(nextPointOfInterest) + 1);
+
+                                            routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(), nextPointOfInterest.getTitle());
+
+
+                                        }
+
+                                    }else openPOI(pointOfInterest);
+                                });
                             }
                         }
                     }
 
 
-                    if(lines.isEmpty() && routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
-                        if(!onePointHasBeenFound[0]){
-                            lines.addAll(routeHandler.getPolylinesMap());
-                            prevLine = lines.get(0);
-                        }
+                    if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
 
                         if(handler.getLocation() != null){
-                            List<LatLng> prevPoints = new ArrayList<>();
                             runOnUiThread(() -> {
-                                prevPoints.addAll(prevLine.getPoints());
-                                float distance = distance(prevPoints.get(1).latitude, prevPoints.get(1).longitude, handler.getLocation().getLatitude(), handler.getLocation().getLongitude());
-                                if(distance < 10){
+                                for (Polyline line : routeHandler.getPolylinesMap()) {
+                                    List<LatLng> prevPoints = line.getPoints();
 
-                                        prevLine.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
-
-                                    int index = lines.indexOf(prevLine);
-                                    if(index < lines.size()){
-                                        prevLine = lines.get(index + 1);
+                                    float distance = distance(prevPoints.get(1).latitude, prevPoints.get(1).longitude, handler.getLocation().getLatitude(), handler.getLocation().getLongitude());
+                                    if(distance < 15 ){
+                                        line.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
                                     }
-                                    onePointHasBeenFound[0] = true;
                                 }
+
                             });
                         }
                     }
@@ -255,7 +313,6 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
-        callRouteHandler();
     }
 
 

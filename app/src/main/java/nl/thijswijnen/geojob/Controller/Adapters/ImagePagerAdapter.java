@@ -61,7 +61,7 @@ public class ImagePagerAdapter extends PagerAdapter {
             map = "historicKilometer/";
         }
         try {
-            imageView.setImageDrawable(Drawable.createFromStream(mContext.getAssets().open(map + pointOfInterest.getAllImages().get(position)), null));
+            imageView.setImageDrawable(Drawable.createFromStream(mContext.getAssets().open(map + pointOfInterest.getAllImages().get(position).toLowerCase()), null));
         } catch (IOException e) {
             e.printStackTrace();
         }

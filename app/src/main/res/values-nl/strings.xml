@@ -26,4 +26,8 @@
     <string name="Common_ok">Oké</string>
     <string name="Location_word">Locatie:</string>
     <string name="Year_word">Jaar:</string>
+    <string name="exit_navigate_activity_tile">Wil je stoppen?</string>
+    <string name="exit_navigate_activity_positive">Ok</string>
+    <string name="exit_navigate_cancel">Annuleren</string>
+    <string name="navigate_exit_route">Pas op je verlaat de route</string>
 </resources>

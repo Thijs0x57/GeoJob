@@ -33,4 +33,8 @@
     <string name="Location_word">Location</string>
     <string name="Year_word">Year</string>
     <string name="Photographer_word">Photographer</string>
+    <string name="exit_navigate_activity_tile">Do you want to exist?</string>
+    <string name="exit_navigate_activity_positive">Ok</string>
+    <string name="exit_navigate_cancel">Cancel</string>
+    <string name="navigate_exit_route">Warning you are exiting the route</string>
 </resources>
