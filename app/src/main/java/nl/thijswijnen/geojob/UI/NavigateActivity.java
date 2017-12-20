@@ -54,6 +54,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
     private Route route;
 
+    private List<List<LatLng>> routepoints;
 
     private PointOfInterest nextPointOfInterest;
     private GeoFenceHandler geoFenceHandler;
@@ -82,6 +83,8 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
         locationHandler.setShouldShareLocation(true);
 
         geoFenceHandler = new GeoFenceHandler(this);
+
+        routepoints = new ArrayList<>();
 
 
         for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
@@ -203,30 +206,42 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
                 while (isRunningInBackground){
 
-                    if(!routeHandler.getPolylinesMap().isEmpty()){
+                    if(routepoints.isEmpty()) {
                         runOnUiThread(()->{
-                            boolean onRoute = false;
-                            for (Polyline polyline : routeHandler.getPolylinesMap()) {
-                                if(PolyUtil.isLocationOnPath(new LatLng(currentLoc[0].getLatitude(),currentLoc[0].getLongitude()),polyline.getPoints(),false,30)){
-                                    onRoute = true;
-                                }
-                            }
-                            if(!onRoute){
-                                if(!isShowingOffRouteMessage){
-                                    isShowingOffRouteMessage = true;
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                                    builder.setCancelable(false);
-                                    builder.setTitle(getResources().getString(R.string.navigate_exit_route));
-                                    builder.setPositiveButton(getResources().getString(R.string.exit_navigate_activity_positive), (dialogInterface, i) -> {
-                                        isShowingOffRouteMessage = false;
-                                    });
-                                    builder.show();
+                            synchronized (routepoints){
+                                if(!routeHandler.getPolylinesMap().isEmpty()) {
+                                    List<Polyline> lines = routeHandler.getPolylinesMap();
+                                    for (Polyline line : lines) {
+                                        routepoints.add(line.getPoints());
+                                    }
                                 }
                             }
                         });
+                    }else {
+
+                        boolean onRoute = false;
+                        synchronized (routepoints){
+                            for (List<LatLng> routepoint : routepoints) {
+                                if(PolyUtil.isLocationOnPath(new LatLng(currentLoc[0].getLatitude(),currentLoc[0].getLongitude()),routepoint,false,30)){
+                                    onRoute = true;
+                                }
+                            }
+                        }
+                        if(!onRoute){
+                            if(!isShowingOffRouteMessage){
+                                isShowingOffRouteMessage = true;
+                                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                                builder.setCancelable(false);
+                                builder.setTitle(getResources().getString(R.string.navigate_exit_route));
+                                builder.setPositiveButton(getResources().getString(R.string.exit_navigate_activity_positive), (dialogInterface, i) -> {
+                                    isShowingOffRouteMessage = false;
+                                });
+                                runOnUiThread(() -> {
+                                    builder.show();
+                                });
+                            }
+                        }
                     }
-
-
 
                     currentLoc[0] = handler.getLocation();
                     for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
@@ -265,14 +280,14 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
 
                     if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
+                        if(handler.getLocation() != null && !routepoints.isEmpty()){
 
-                        if(handler.getLocation() != null){
                             runOnUiThread(() -> {
                                 for (Polyline line : routeHandler.getPolylinesMap()) {
                                     List<LatLng> prevPoints = line.getPoints();
 
                                     float distance = distance(prevPoints.get(1).latitude, prevPoints.get(1).longitude, handler.getLocation().getLatitude(), handler.getLocation().getLongitude());
-                                    if(distance < 15 ){
+                                    if(distance < 15  && line.getColor() != R.color.colorWalkedRouteAndPinPoint){
                                         line.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
                                     }
                                 }
@@ -281,7 +296,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                         }
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
