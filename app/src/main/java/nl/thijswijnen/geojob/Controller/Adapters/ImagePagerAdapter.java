@@ -66,6 +66,12 @@ public class ImagePagerAdapter extends PagerAdapter {
             e.printStackTrace();
         }
 
+        if(imageView.getParent() != null){
+            View parent = (View) imageView.getParent();
+            container.addView(parent);
+            return parent;
+        }
+
         container.addView(imageView);
         return imageView;
     }
