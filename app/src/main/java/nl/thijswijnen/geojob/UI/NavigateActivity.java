@@ -59,6 +59,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     private GeoFenceHandler geoFenceHandler;
 
     private boolean isRunningInBackground;
+    private boolean isShowingOffRouteMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,13 +205,22 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
                     if(!routeHandler.getPolylinesMap().isEmpty()){
                         runOnUiThread(()->{
+                            boolean onRoute = false;
                             for (Polyline polyline : routeHandler.getPolylinesMap()) {
-                                if(!PolyUtil.isLocationOnPath(new LatLng(currentLoc[0].getLatitude(),currentLoc[0].getLongitude()),polyline.getPoints(),false,1.0)){
+                                if(PolyUtil.isLocationOnPath(new LatLng(currentLoc[0].getLatitude(),currentLoc[0].getLongitude()),polyline.getPoints(),false,30)){
+                                    onRoute = true;
+                                }
+                            }
+                            if(!onRoute){
+                                if(!isShowingOffRouteMessage){
+                                    isShowingOffRouteMessage = true;
                                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                                     builder.setCancelable(false);
                                     builder.setTitle(getResources().getString(R.string.navigate_exit_route));
                                     builder.setPositiveButton(getResources().getString(R.string.exit_navigate_activity_positive), (dialogInterface, i) -> {
+                                        isShowingOffRouteMessage = false;
                                     });
+                                    builder.show();
                                 }
                             }
                         });
