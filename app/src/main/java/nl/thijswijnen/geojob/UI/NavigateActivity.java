@@ -234,13 +234,12 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                                 builder.setCancelable(false);
                                 builder.setTitle(getResources().getString(R.string.navigate_exit_route));
                                 builder.setPositiveButton(getResources().getString(R.string.exit_navigate_activity_positive), (dialogInterface, i) -> {
-                                    isShowingOffRouteMessage = false;
                                 });
                                 runOnUiThread(() -> {
                                     builder.show();
                                 });
                             }
-                        }
+                        }else isShowingOffRouteMessage = false;
                     }
 
                     currentLoc[0] = handler.getLocation();
