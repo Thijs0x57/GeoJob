@@ -160,8 +160,21 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     private void callRouteHandler()
     {
         new Thread(() ->{
+            final boolean[] isShowingGPSAlterDialog = {false};
+            final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
             LocationHandler handler = LocationHandler.getInstance(this);
             while (handler.getLocation() == null || mMap == null){
+                if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !isShowingGPSAlterDialog[0]){
+                    isShowingGPSAlterDialog[0] = true;
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle(getResources().getString(R.string.navitgate_activity_gps_not_enabled));
+                    builder.setPositiveButton(getResources().getString(R.string.Common_ok), (dialogInterface, i) -> {
+                        isShowingGPSAlterDialog[0] = false;
+                    });
+                    builder.show();
+                }
+
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -181,120 +194,132 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                 });
             }
 
-            new Thread(() ->{
-                boolean init = false;
 
-                synchronized (routeHandler.getMarkers()) {
-                    for (Marker marker : routeHandler.getMarkers()) {
-                        runOnUiThread(() -> {
-                            if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
-                                marker.remove();
-                            }
-                        });
-                    }
+            boolean init = false;
+
+            synchronized (routeHandler.getMarkers()) {
+                for (Marker marker : routeHandler.getMarkers()) {
+                    runOnUiThread(() -> {
+                        if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
+                            marker.remove();
+                        }
+                    });
+                }
+            }
+
+
+            routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(),nextPointOfInterest.getTitle());
+
+
+            while (isRunningInBackground){
+
+                if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !isShowingGPSAlterDialog[0]){
+                    isShowingGPSAlterDialog[0] = true;
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle(getResources().getString(R.string.navitgate_activity_gps_not_enabled));
+                    builder.setPositiveButton(getResources().getString(R.string.Common_ok), (dialogInterface, i) -> {
+                        isShowingGPSAlterDialog[0] = false;
+                    });
+                    builder.show();
                 }
 
-
-                routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(),nextPointOfInterest.getTitle());
-
-                while (isRunningInBackground){
-
-                    if(routepoints.isEmpty()) {
-                        runOnUiThread(()->{
-                            synchronized (routepoints){
-                                if(!routeHandler.getPolylinesMap().isEmpty()) {
-                                    List<Polyline> lines = routeHandler.getPolylinesMap();
-                                    for (Polyline line : lines) {
-                                        routepoints.add(line.getPoints());
-                                    }
-                                }
-                            }
-                        });
-                    }else {
-
-                        boolean onRoute = false;
+                if(routepoints.isEmpty()) {
+                    runOnUiThread(()->{
                         synchronized (routepoints){
-                            for (List<LatLng> routepoint : routepoints) {
-                                if(PolyUtil.isLocationOnPath(new LatLng(currentLoc[0].getLatitude(),currentLoc[0].getLongitude()),routepoint,false,30)){
-                                    onRoute = true;
+                            if(!routeHandler.getPolylinesMap().isEmpty()) {
+                                List<Polyline> lines = routeHandler.getPolylinesMap();
+                                for (Polyline line : lines) {
+                                    routepoints.add(line.getPoints());
                                 }
                             }
                         }
-                        if(!onRoute){
-                            if(!isShowingOffRouteMessage){
-                                isShowingOffRouteMessage = true;
-                                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                                builder.setCancelable(false);
-                                builder.setTitle(getResources().getString(R.string.navigate_exit_route));
-                                builder.setPositiveButton(getResources().getString(R.string.exit_navigate_activity_positive), (dialogInterface, i) -> {
-                                });
-                                runOnUiThread(() -> {
-                                    builder.show();
-                                });
+                    });
+                }else {
+
+                    boolean onRoute = false;
+                    synchronized (routepoints){
+                        for (List<LatLng> routepoint : routepoints) {
+                            if(PolyUtil.isLocationOnPath(new LatLng(currentLoc[0].getLatitude(),currentLoc[0].getLongitude()),routepoint,false,30)){
+                                onRoute = true;
                             }
-                        }else isShowingOffRouteMessage = false;
+                        }
                     }
+                    if(!onRoute){
+                        if(!isShowingOffRouteMessage){
+                            isShowingOffRouteMessage = true;
+                            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                            builder.setCancelable(false);
+                            builder.setTitle(getResources().getString(R.string.navigate_exit_route));
+                            builder.setPositiveButton(getResources().getString(R.string.exit_navigate_activity_positive), (dialogInterface, i) -> {
+                            });
+                            runOnUiThread(() -> {
+                                builder.show();
+                            });
+                        }
+                    }else isShowingOffRouteMessage = false;
+                }
 
-                    currentLoc[0] = handler.getLocation();
-                    for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
-                        if(!pointOfInterest.isVisited() || pointOfInterest.equals(nextPointOfInterest)){
-                            float distance = distance(pointOfInterest.getLocation().latitude,pointOfInterest.getLocation().longitude,
-                                    currentLoc[0].getLatitude(), currentLoc[0].getLongitude());
-                            if(distance < 20){
-                                runOnUiThread(()->{
-                                    //only next marker should be blue
-                                    if(pointOfInterest.equals(nextPointOfInterest)){
-                                        synchronized (routeHandler.getMarkers()) {
-                                            for (Marker marker : routeHandler.getMarkers()) {
-                                                if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
-                                                    marker.remove();
+                currentLoc[0] = handler.getLocation();
+                for (PointOfInterest pointOfInterest : route.getHKPointsOfInterests()) {
+                    if(!pointOfInterest.isVisited() || pointOfInterest.equals(nextPointOfInterest)){
+                        float distance = distance(pointOfInterest.getLocation().latitude,pointOfInterest.getLocation().longitude,
+                                currentLoc[0].getLatitude(), currentLoc[0].getLongitude());
+                        if(distance < 20){
+                            runOnUiThread(()->{
+                                //only next marker should be blue
+                                if(pointOfInterest.equals(nextPointOfInterest)){
+                                    synchronized (routeHandler.getMarkers()) {
+                                        for (Marker marker : routeHandler.getMarkers()) {
+                                            if (marker.getPosition().equals(nextPointOfInterest.getLocation())) {
+                                                marker.remove();
 
-                                                }
                                             }
-
-                                            if(!pointOfInterest.isVisited()){
-                                                openPOI(pointOfInterest);
-                                            }else routeHandler.updateMarker(nextPointOfInterest.getLocation(),nextPointOfInterest.getTitle());
-
-                                            if(pointOfInterestList.indexOf(nextPointOfInterest) + 1 < pointOfInterestList.size())
-                                                nextPointOfInterest = pointOfInterestList.get(pointOfInterestList.indexOf(nextPointOfInterest) + 1);
-
-                                            routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(), nextPointOfInterest.getTitle());
-
-
                                         }
 
-                                    }else openPOI(pointOfInterest);
-                                });
-                            }
-                        }
-                    }
+                                        if(!pointOfInterest.isVisited()){
+                                            openPOI(pointOfInterest);
+                                        }else routeHandler.updateMarker(nextPointOfInterest.getLocation(),nextPointOfInterest.getTitle());
+
+                                        if(pointOfInterestList.indexOf(nextPointOfInterest) + 1 < pointOfInterestList.size())
+                                            nextPointOfInterest = pointOfInterestList.get(pointOfInterestList.indexOf(nextPointOfInterest) + 1);
+
+                                        routeHandler.updateMarkerDarkBlue(nextPointOfInterest.getLocation(), nextPointOfInterest.getTitle());
 
 
-                    if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
-                        if(handler.getLocation() != null && !routepoints.isEmpty()){
-
-                            runOnUiThread(() -> {
-                                for (Polyline line : routeHandler.getPolylinesMap()) {
-                                    List<LatLng> prevPoints = line.getPoints();
-
-                                    float distance = distance(prevPoints.get(1).latitude, prevPoints.get(1).longitude, handler.getLocation().getLatitude(), handler.getLocation().getLongitude());
-                                    if(distance < 15  && line.getColor() != R.color.colorWalkedRouteAndPinPoint){
-                                        line.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
                                     }
-                                }
 
+                                }else openPOI(pointOfInterest);
                             });
                         }
                     }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                }
+
+
+                if(routeHandler.getPolylinesMap() != null && !routeHandler.getPolylinesMap().isEmpty()){
+                    if(handler.getLocation() != null && !routepoints.isEmpty()){
+
+                        runOnUiThread(() -> {
+                            for (Polyline line : routeHandler.getPolylinesMap()) {
+                                List<LatLng> prevPoints = line.getPoints();
+
+                                float distance = distance(prevPoints.get(1).latitude, prevPoints.get(1).longitude, handler.getLocation().getLatitude(), handler.getLocation().getLongitude());
+                                if(distance < 15  && line.getColor() != R.color.colorWalkedRouteAndPinPoint){
+                                    line.setColor(getResources().getColor(R.color.colorWalkedRouteAndPinPoint));
+                                }
+                            }
+
+                        });
                     }
                 }
-            }).start();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }).start();
+
     }
 
 
