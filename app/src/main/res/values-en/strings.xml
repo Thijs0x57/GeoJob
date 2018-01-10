@@ -30,4 +30,5 @@
     <string name="exit_navigate_activity_positive">Ok</string>
     <string name="exit_navigate_cancel">Cancel</string>
     <string name="navigate_exit_route">Warning you are exiting the route</string>
+    <string name="No_internetConnection">No internet connection available, please check your internet connection</string>
 </resources>
