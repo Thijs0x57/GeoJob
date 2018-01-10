@@ -11,7 +11,7 @@
     <string name="SettingsActivity_ShowNotifications">Noficaties weergeven</string>
     <string name="Common_Breda2017">Breda 2017</string>
     <string name="Common_CityGuide">City Guide</string>
-    <string name="NavigateActivity_ResumeRoute">Route Hervatten</string>
+    <string name="NavigateActivity_ResumeRoute">Route Stoppen</string>
     <string name="HelpActivity_helpText">Deze applicatie verzorgd een virtuele rondleind door de mooiste stad van Nederland.\n\nOm de applicatie te gebruiken moet u de applicatie bepaalde rechten geven, hierom zal gevraagd worden.\n\nOp het beginscherm kan je kiezen of je de taal wilt aanpassen of een route wilt selecteren. Als je een route hebt gekozen dan kan je deze volgen. Als je een punt van intresse selecteerd kan je informatie over dit punt vinden.</string>
     <string name="DetailRouteActivity_StartRouteButton">Route gaan lopen</string>
     <string name="DetailRouteActivity_PDBTitle">Deze heeft de volgende kunstwerken:</string>
@@ -30,4 +30,6 @@
     <string name="exit_navigate_activity_positive">Ok</string>
     <string name="exit_navigate_cancel">Annuleren</string>
     <string name="navigate_exit_route">Pas op je verlaat de route</string>
+    <string name="Common_notify_enabled">Notificaties zijn ingeschakeld</string>
+    <string name="Common_notify_disabled">Notificaties zijn uitgeschakeld</string>
 </resources>

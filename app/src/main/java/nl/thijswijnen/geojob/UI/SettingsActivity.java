@@ -58,9 +58,9 @@ public class SettingsActivity extends AppCompatActivity
 
 
         if (wantToShow) {
-            Toast.makeText(getApplicationContext(), "Notification Enabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.Common_notify_enabled, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Notification Disabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.Common_notify_disabled, Toast.LENGTH_SHORT).show();
         }
         editor.putBoolean(SHOW_NOTIFICATIONS,wantToShow);
         editor.commit();

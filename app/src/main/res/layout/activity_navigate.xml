@@ -35,21 +35,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="39dp" />
+        app:layout_constraintGuide_begin="46dp"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="40dp" />
+        app:layout_constraintGuide_begin="90dp"/>
 
     <ImageButton
         android:id="@+id/navigate_settings_btn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         android:src="@drawable/gear_2"
@@ -57,7 +56,14 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="52dp"/>
 
 
 </android.support.constraint.ConstraintLayout>
