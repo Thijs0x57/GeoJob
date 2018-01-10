@@ -12,7 +12,7 @@
     <string name="Common_CityGuide">City Guide</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="NavigateActivity_ResumeRoute">Resume Route</string>
+    <string name="NavigateActivity_ResumeRoute">Stop Route</string>
     <string name="HelpActivity_helpText">This application provides a virtual guide through the most beautiful city of the Netherlands.\nThis application needs certain permissions to work correctly, you will be asked about this.</string>
     <string name="DetailRouteActivity_StartRouteButton">Start route</string>
     <string name="DetailRouteActivity_PDBTitle">This route has the followings points:</string>
@@ -37,5 +37,10 @@
     <string name="exit_navigate_activity_positive">Ok</string>
     <string name="exit_navigate_cancel">Cancel</string>
     <string name="navigate_exit_route">Warning you are exiting the route</string>
+
     <string name="No_internetConnection">No internet connection available, please check your internet connection</string>
+
+    <string name="Common_notify_enabled">Notifications enabled</string>
+    <string name="Common_notify_disabled">Notifications disabled</string>
+
 </resources>
