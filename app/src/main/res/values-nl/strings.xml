@@ -30,6 +30,7 @@
     <string name="exit_navigate_activity_positive">Ok</string>
     <string name="exit_navigate_cancel">Annuleren</string>
     <string name="navigate_exit_route">Pas op je verlaat de route</string>
+    <string name="navitgate_activity_gps_not_enabled">GPS staat uit. AUB GPS aanzetten</string>
     <string name="Common_notify_enabled">Notificaties zijn ingeschakeld</string>
     <string name="Common_notify_disabled">Notificaties zijn uitgeschakeld</string>
 </resources>

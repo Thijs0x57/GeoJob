@@ -22,19 +22,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.WelcomeActivity">
+        <activity android:name=".UI.WelcomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.SettingsActivity" />
-        <activity android:name=".UI.HelpActivity" />
-        <activity android:name=".UI.ChooseRouteActivity" />
-        <activity android:name=".UI.LanguageActivity" />
-        <activity android:name=".UI.DetailRouteActivity" />
-        <activity android:name=".UI.DetailPoiActivity" />
+        <activity android:name=".UI.SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.HelpActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.ChooseRouteActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.LanguageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.DetailRouteActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.DetailPoiActivity"
+            android:screenOrientation="portrait"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

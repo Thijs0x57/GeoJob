@@ -66,4 +66,12 @@ public class SettingsActivity extends AppCompatActivity
         editor.commit();
 
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        Intent i = new Intent(this,WelcomeActivity.class);
+        startActivity(i);
+    }
 }
