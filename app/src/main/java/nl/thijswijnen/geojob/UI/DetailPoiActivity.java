@@ -1,7 +1,10 @@
 package nl.thijswijnen.geojob.UI;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -81,16 +85,25 @@ public class DetailPoiActivity extends AppCompatActivity
                     videoStart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            try {
+                            ConnectivityManager connectivityManager
+                                    = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                            if( activeNetworkInfo != null && activeNetworkInfo.isConnected())
+                            {
+                                try {
 
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse(url));
-                                System.out.println("Boiy");
-                                startActivity(browserIntent);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                System.out.println("Boiy Not Hot1");
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                            Uri.parse(url));
+                                    System.out.println("Boiy");
+                                    startActivity(browserIntent);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    System.out.println("Boiy Not Hot1");
+                                }
+                            }else{
+                                Toast.makeText(getApplicationContext(), R.string.No_internetConnection, Toast.LENGTH_SHORT).show();
                             }
+
                         }
                     });
                 } else {

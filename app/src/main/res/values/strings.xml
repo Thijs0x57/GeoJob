@@ -37,7 +37,11 @@
     <string name="exit_navigate_activity_positive">Ok</string>
     <string name="exit_navigate_cancel">Cancel</string>
     <string name="navigate_exit_route">Warning you are exiting the route</string>
+
+    <string name="No_internetConnection">No internet connection available, please check your internet connection</string>
+
     <string name="Common_notify_enabled">Notifications enabled</string>
     <string name="Common_notify_disabled">Notifications disabled</string>
+
     <string name="navitgate_activity_gps_not_enabled">No GPS available please turn GPS on.</string>
 </resources>
