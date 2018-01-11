@@ -71,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity
     protected void onRestart() {
         super.onRestart();
         finish();
-        Intent i = new Intent(this,WelcomeActivity.class);
+        Intent i = new Intent(this,SettingsActivity.class);
         startActivity(i);
     }
 }
