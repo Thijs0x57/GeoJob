@@ -8,10 +8,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -138,8 +140,10 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
 
     //TODO: ROEP DEZE AAN ALS DE GEOLOCATIE GETRIGGERD WORDT
     private void openPOI(PointOfInterest p) {
+        SharedPreferences preferences = getSharedPreferences(WelcomeActivity.PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        boolean showNotifications = preferences.getBoolean("showNotifications",true);
         if (!p.isVisited()) {
-            Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
             p.setVisited(true);
             synchronized (routeHandler.getMarkers()){
                 for (Marker marker : routeHandler.getMarkers()) {
@@ -150,9 +154,12 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                     });
                 }
                 routeHandler.updateMarker(p.getLocation(), p.getTitle());
+                Log.d("NavigateActiviy","open poi");
+            }
+            if(showNotifications){
+                Intent i = new Intent(getApplicationContext(), DetailPoiActivity.class);
                 i.putExtra("POI", p);
                 startActivity(i);
-                Log.d("NavigateActiviy","open poi");
             }
         }
     }
@@ -160,6 +167,7 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
     private void callRouteHandler()
     {
         new Thread(() ->{
+            Looper.prepare();
             final boolean[] isShowingGPSAlterDialog = {false};
             final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
             LocationHandler handler = LocationHandler.getInstance(this);
@@ -167,12 +175,12 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                 if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !isShowingGPSAlterDialog[0]){
                     isShowingGPSAlterDialog[0] = true;
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NavigateActivity.this);
                     builder.setTitle(getResources().getString(R.string.navitgate_activity_gps_not_enabled));
                     builder.setPositiveButton(getResources().getString(R.string.Common_ok), (dialogInterface, i) -> {
                         isShowingGPSAlterDialog[0] = false;
                     });
-                    builder.show();
+                    runOnUiThread(() -> builder.show());
                 }
 
                 try {
@@ -216,12 +224,12 @@ public class NavigateActivity extends FragmentActivity implements OnMapReadyCall
                 if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !isShowingGPSAlterDialog[0]){
                     isShowingGPSAlterDialog[0] = true;
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NavigateActivity.this);
                     builder.setTitle(getResources().getString(R.string.navitgate_activity_gps_not_enabled));
                     builder.setPositiveButton(getResources().getString(R.string.Common_ok), (dialogInterface, i) -> {
                         isShowingGPSAlterDialog[0] = false;
                     });
-                    builder.show();
+                    runOnUiThread(() -> builder.show());
                 }
 
                 if(routepoints.isEmpty()) {
