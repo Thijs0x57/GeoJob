@@ -38,7 +38,7 @@
 		},
 		"Image" :
 		[
-			"nassau_baroniemomnument.jpg"
+			"nassau_baroniemonument.jpg"
 		],
 		"Audio" :
 		[
@@ -1119,11 +1119,11 @@
 		{
 			"Default" : "Welkom bij de VVV van Breda.",
 			"NL" : "Welkom bij de VVV van Breda.",
-			"ENG" : "Welcom at the tourist information from the city Breda."
+			"ENG" : "Welcome at the tourist information from the city Breda."
 		},
 		"Image" :
 		[
-
+			"vvv_willemstraat.jpg"
 		],
 		"Audio" :
 		[
