@@ -52,7 +52,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/Common_google_maps_key" />
+            android:value="AIzaSyDlPMbvEikR40aphGhAQHBirTTPonIR5Ic" />
 
         <activity
             android:name=".UI.NavigateActivity"

@@ -31,4 +31,10 @@
     <string name="exit_navigate_cancel">Cancel</string>
     <string name="navigate_exit_route">Warning you are exiting the route</string>
     <string name="navitgate_activity_gps_not_enabled">No GPS available please turn GPS on.</string>
+    <string name="title_activity_navigate">Map</string>
+    <string name="hello_blank_fragment">Map</string>
+    <string name="Common_origin">Origin</string>
+    <string name="Common_noConnection">No connection</string>
+    <string name="title_activity_poi_tester">PoiTester</string>
+    <string name="Photographer_word">Photographer</string>
 </resources>

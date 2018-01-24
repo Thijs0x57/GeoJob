@@ -31,4 +31,10 @@
     <string name="exit_navigate_cancel">Annuleren</string>
     <string name="navigate_exit_route">Pas op je verlaat de route</string>
     <string name="navitgate_activity_gps_not_enabled">GPS staat uit. AUB GPS aanzetten</string>
+    <string name="title_activity_navigate">Map</string>
+    <string name="hello_blank_fragment">Map</string>
+    <string name="Common_origin">Origin</string>
+    <string name="Common_noConnection">Geen verbinding</string>
+    <string name="title_activity_poi_tester">PoiTester</string>
+    <string name="Photographer_word">Fotograaf</string>
 </resources>
